@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddElement"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/action_to_do"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="15dp"
+        android:padding="10dp"
+        android:text="Nuevo Elemento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Area"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/AreaSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageButton
+                android:id="@+id/AddNewArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:src="@android:drawable/ic_input_add" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sección"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/SectionSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/AddNewSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:src="@android:drawable/ic_input_add" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Elemento"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/RFID"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:hint="RFID"/>
+
+        <EditText
+            android:id="@+id/Label"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:hint="Etiqueta"/>
+
+        <EditText
+            android:id="@+id/Descriptor"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:hint="Descriptor"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estado"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Activo"/>
+
+            <RadioButton
+                android:id="@+id/ActiveRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inactivo"/>
+
+            <RadioButton
+                android:id="@+id/InactiveRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/Observations"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:hint="Observaciones"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/cancelAnimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="70dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+        <ImageButton
+            android:id="@+id/saveAnimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_save" />
+    </LinearLayout>
+
+</LinearLayout>
