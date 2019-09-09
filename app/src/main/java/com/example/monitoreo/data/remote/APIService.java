@@ -1,6 +1,7 @@
 package com.example.monitoreo.data.remote;
 
 import com.example.monitoreo.data.model.Area;
+import com.example.monitoreo.data.model.Section;
 
 import java.util.List;
 
@@ -15,4 +16,12 @@ public interface APIService {
     @GET("areas")
     Call<List<Area>> getAllAreas();
 
+    @GET("secciones")
+    Call<List<Section>> getAllSections();
+
+    @POST("secciones")
+    Call<Section> createSection (@Body Section section);
+
+    @POST("areas")
+    Call<Area> createArea (@Body Area area);
 }
