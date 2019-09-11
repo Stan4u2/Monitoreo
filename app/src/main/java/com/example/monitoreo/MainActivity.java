@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton, signUpLettersButton;
     private APIService mAPIService;
 
+    public static String tokenAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveToken(String token) {
         if (!token.isEmpty()) {
+            //Set the token to a public static variable so that other classes can use it
+            tokenAuth = token;
             //Save the token in a xml with the name of token
             SharedPreferences preferences = getSharedPreferences("token", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -115,11 +119,16 @@ public class MainActivity extends AppCompatActivity {
 
         //If the string isn't empty then it'll login
         if (!token.isEmpty()) {
+            //Set the token to a public static variable so that other classes can use it
+            tokenAuth = token;
             start();
         }
     }
 
     public void start() {
         Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
+        Intent intent = null;
+        intent = new Intent(getApplicationContext(), AddElement.class);
+        startActivity(intent);
     }
 }

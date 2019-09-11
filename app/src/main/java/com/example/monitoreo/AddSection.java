@@ -63,7 +63,7 @@ public class AddSection extends AppCompatActivity {
         if (!NewSection.getText().toString().isEmpty()) {
             Section section = new Section(NewSection.getText().toString());
 
-            Call<Section> call = mAPIService.createSection(section);
+            Call<Section> call = mAPIService.createSection(MainActivity.tokenAuth,section);
 
             call.enqueue(new Callback<Section>() {
                 @Override

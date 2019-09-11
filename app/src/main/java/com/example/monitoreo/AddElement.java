@@ -18,6 +18,8 @@ import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
 
+import com.example.monitoreo.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +111,7 @@ public class AddElement extends AppCompatActivity {
     private void getSections() {
         sectionObjects = new ArrayList<Section>();
 
-        Call<List<Section>> call = mAPIService.getAllSections();
+        Call<List<Section>> call = mAPIService.getAllSections(MainActivity.tokenAuth);
 
         call.enqueue(new Callback<List<Section>>() {
             @Override
@@ -150,7 +152,7 @@ public class AddElement extends AppCompatActivity {
     public void getAreas() {
         areasObjects = new ArrayList<Area>();
 
-        Call<List<Area>> call = mAPIService.getAllAreas();
+        Call<List<Area>> call = mAPIService.getAllAreas(MainActivity.tokenAuth);
 
         call.enqueue(new Callback<List<Area>>() {
             @Override

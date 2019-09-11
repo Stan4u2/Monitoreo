@@ -61,7 +61,7 @@ public class AddArea extends AppCompatActivity {
         if (!NewArea.getText().toString().isEmpty()) {
             Area area = new Area(NewArea.getText().toString());
 
-            Call<Area> call = mAPIService.createArea(area);
+            Call<Area> call = mAPIService.createArea(MainActivity.tokenAuth, area);
 
             call.enqueue(new Callback<Area>() {
                 @Override
