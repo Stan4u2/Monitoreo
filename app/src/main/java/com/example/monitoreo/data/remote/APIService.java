@@ -2,6 +2,7 @@ package com.example.monitoreo.data.remote;
 
 import com.example.monitoreo.data.model.Area;
 import com.example.monitoreo.data.model.Section;
+import com.example.monitoreo.data.model.User;
 
 import java.util.List;
 
@@ -24,4 +25,10 @@ public interface APIService {
 
     @POST("areas")
     Call<Area> createArea (@Body Area area);
+
+    @POST("usuarios/login")
+    Call<User> login (@Body User user);
+
+    @POST("usuarios")
+    Call<User> createUser (@Body User user);
 }

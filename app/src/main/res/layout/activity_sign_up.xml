@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LOGIN"
+                android:text="SIGN UP"
                 android:textSize="30dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/colorFinalGradient"
@@ -50,7 +50,46 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
+                android:text="Nombre"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/colorFinalGradient"
+                android:layout_marginLeft="20dp" />
+
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorFinalGradient"
+                android:hint="NOMBRE" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Email"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/colorFinalGradient"
+                android:layout_marginLeft="20dp" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="EMAIL"
+                android:backgroundTint="@color/colorFinalGradient"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Usuario"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/colorFinalGradient"
@@ -66,10 +105,11 @@
                 android:backgroundTint="@color/colorFinalGradient"
                 android:hint="USUARIO" />
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:text="Contraseña"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/colorFinalGradient"
@@ -87,28 +127,15 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/signUpButton"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="60dp"
                 android:background="@drawable/ic_gradient_color"
                 android:layout_gravity="center"
-                android:text="LOGIN"
+                android:text="SIGN UP"
                 android:textColor="@color/colorWhite"
-                android:onClick="onClick"/>
-
-            <Button
-                android:id="@+id/signUpLettersButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:textSize="13dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:textColor="@color/colorFinalGradient"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_gravity="center"
-                android:text="¿No tienes usuario? Registrate"
-                android:onClick="onClick"/>
+                android:onClick="signUp"/>
 
         </LinearLayout>
     </LinearLayout>
