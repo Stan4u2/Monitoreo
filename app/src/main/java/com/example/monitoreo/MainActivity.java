@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //App will check if there is a token saved if there is it'll login automatically
         checkToken();
+        check();
 
     }
 
@@ -55,9 +56,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
-                login();
+                //login();
+                check();
                 break;
         }
+    }
+
+    public void check(){
+        Call<User> call = mAPIService.check(3);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("It works motherfucker");
+                } else {
+                    Log.e("Login", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("Login", "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     private void login() {
