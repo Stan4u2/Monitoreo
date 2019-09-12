@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".AddSection">
 
     <TextView
         android:id="@+id/action_to_do"
@@ -31,6 +32,7 @@
             android:gravity="center">
 
             <EditText
+                android:id="@+id/NewSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foregroundGravity="center"
@@ -44,12 +46,15 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/CancelSection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
                 <ImageButton
+                    android:id="@+id/SaveSection"
+                    android:onClick="saveSection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_save" />
