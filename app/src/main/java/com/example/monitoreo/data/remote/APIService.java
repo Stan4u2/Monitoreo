@@ -17,16 +17,16 @@ import retrofit2.http.Path;
 public interface APIService {
 
     @GET("areas")
-    Call<List<Area>> getAllAreas(@Header("access_token") String access_token);
+    Call<List<Area>> getAllAreas(@Header("Authorization") String access_token);
 
     @GET("secciones")
-    Call<List<Section>> getAllSections(@Header("access_token") String access_token);
+    Call<List<Section>> getAllSections(@Header("Authorization") String access_token);
 
     @POST("secciones")
-    Call<Section> createSection(@Header("access_token") String access_token, @Body Section section);
+    Call<Section> createSection(@Header("Authorization") String access_token, @Body Section section);
 
     @POST("areas")
-    Call<Area> createArea(@Header("access_token") String access_token, @Body Area area);
+    Call<Area> createArea(@Header("Authorization") String access_token, @Body Area area);
 
     @POST("usuarios/login")
     Call<User> login(@Body User user);
@@ -35,7 +35,7 @@ public interface APIService {
     Call<User> createUser(@Body User user);
 
     @GET("usuarios/{id}")
-    Call<User> check(@Path("id") long id);
+    Call<User> check(@Header("Authorization") String access_token, @Path("id") long id);
 
 
 }

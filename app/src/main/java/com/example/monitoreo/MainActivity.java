@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         //App will check if there is a token saved if there is it'll login automatically
         checkToken();
-        check();
 
     }
 
@@ -56,30 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.loginButton:
-                //login();
-                check();
+                login();
                 break;
         }
-    }
-
-    public void check(){
-        Call<User> call = mAPIService.check(3);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("It works motherfucker");
-                } else {
-                    Log.e("Login", "onFailure: " + response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("Login", "onFailure: " + t.getMessage());
-            }
-        });
     }
 
     private void login() {
@@ -108,8 +86,12 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Token: " + id);
                     //Call method to save the tokeen
                     saveToken(id);
+                    start();
                 } else {
                     Log.e("Login", "onFailure: " + response.message());
+                    if(response.message().equals("Unauthorized")){
+                        Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrecto", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -123,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveToken(String token) {
         if (!token.isEmpty()) {
-            //Set the token to a public static variable so that other classes can use it
             tokenAuth = token;
             //Save the token in a xml with the name of token
             SharedPreferences preferences = getSharedPreferences("token", Context.MODE_PRIVATE);
@@ -141,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
         //If the string isn't empty then it'll login
         if (!token.isEmpty()) {
-            //Set the token to a public static variable so that other classes can use it
             tokenAuth = token;
             start();
         }
