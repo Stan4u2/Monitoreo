@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private APIService mAPIService;
 
     public static String tokenAuth;
+    public static Integer userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Make a new object with the user data
-        User user = new User("", userEditText.getText().toString(), "", passwordEditText.getText().toString(), -1);
+        final User user = new User("", userEditText.getText().toString(), "", passwordEditText.getText().toString(), -1);
 
         //Call the APIService Class
         Call<User> call = mAPIService.login(user);
@@ -83,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //Get token
                     String id = response.body().getId();
+                    //Get user id
+                    userID = response.body().getUserId();
+                    System.out.println("Id user: " + userID);
                     System.out.println("Token: " + id);
                     //Call method to save the tokeen
                     saveToken(id);

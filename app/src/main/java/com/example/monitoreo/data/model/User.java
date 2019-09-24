@@ -19,6 +19,9 @@ public class User {
     @SerializedName("ttl")
     private Integer ttl;
 
+    @SerializedName("userId")
+    private Integer userId;
+
     //This is the token
     @SerializedName("id")
     private String id;
@@ -77,5 +80,13 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
