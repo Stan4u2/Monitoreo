@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signUpLettersButton:
-                Intent intent = null;
-                intent = new Intent(getApplicationContext(), SignUp.class);
+                Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivity(intent);
                 break;
             case R.id.loginButton:
@@ -133,8 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void start() {
         Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
-        Intent intent = null;
-        intent = new Intent(getApplicationContext(), AddElement.class);
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(intent);
     }
 }
