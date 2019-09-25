@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/action_to_do"
+        android:id="@+id/action_to_do_element"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -215,17 +215,18 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/cancelAnimal"
+            android:id="@+id/CancelElement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="70dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:onClick=""/>
 
         <ImageButton
-            android:id="@+id/saveAnimal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_save" />
+            android:src="@android:drawable/ic_menu_save"
+            android:onClick="checkInputs"/>
     </LinearLayout>
 
 </LinearLayout>

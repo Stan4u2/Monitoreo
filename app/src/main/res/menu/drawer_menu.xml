@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Inicio" />
         <item
-            android:id="@+id/nav_purchases"
+            android:id="@+id/nav_elements"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="Compras" />
+            android:title="Elementos" />
         <item
             android:id="@+id/nav_sales"
             android:icon="@drawable/ic_home_black_24dp"
