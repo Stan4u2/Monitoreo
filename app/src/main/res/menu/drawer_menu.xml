@@ -4,43 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Inicio" />
+            android:icon="@drawable/home_1"
+            android:title="Inicio"/>
         <item
             android:id="@+id/nav_elements"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/elemento_1"
             android:title="Elementos" />
         <item
-            android:id="@+id/nav_sales"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Ventas" />
+            android:id="@+id/nav_areas"
+            android:icon="@drawable/area_1"
+            android:title="Areas" />
         <item
-            android:id="@+id/nav_appointment"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Citas" />
-        <item
-            android:id="@+id/nav_people"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Personas" />
-        <item
-            android:id="@+id/nav_personal_data"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Datos Personales" />
+            android:id="@+id/nav_sections"
+            android:icon="@drawable/seccion_1"
+            android:title="Secciones" />
     </group>
 
     <item android:title="Acciones">
         <menu>
             <item
-                android:id="@+id/nav_BackUp"
-                android:icon="@drawable/ic_home_black_24dp"
-                android:title="Respaldar" />
-            <item
-                android:id="@+id/nav_Import"
-                android:icon="@drawable/ic_home_black_24dp"
-                android:title="Importar" />
-            <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_home_black_24dp"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
                 android:title="Cerrar Sesion" />
         </menu>
     </item>
