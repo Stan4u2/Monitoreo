@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.monitoreo.Adapter.Adapter_Objects;
 import com.example.monitoreo.AddElement;
+import com.example.monitoreo.ElementDetails;
 import com.example.monitoreo.MainActivity;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.Area;
@@ -41,7 +42,11 @@ public class Fragment_Objects extends Fragment {
 
     RecyclerView ElementsRecyclerView;
 
-    Button AddObject;
+    ImageButton AddObject;
+
+    Element element1 = null;
+    Area area1 = null;
+    Section section1 = null;
 
     @Nullable
     @Override
@@ -89,8 +94,20 @@ public class Fragment_Objects extends Fragment {
 
         adapter_objects.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Element element = elements.get(ElementsRecyclerView.getChildAdapterPosition(view));
+                Area area = areasObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
+                Section section = sectionObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
 
+                Intent intent = new Intent(view.getContext(), ElementDetails.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("element", element);
+                bundle.putSerializable("area", area);
+                bundle.putSerializable("section", section);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -99,6 +116,7 @@ public class Fragment_Objects extends Fragment {
 
 
     private void getElements (){
+
         elements = new ArrayList<Element>();
 
         Call<List<Element>> call = mAPIService.getAllElements(MainActivity.tokenAuth);
@@ -111,6 +129,17 @@ public class Fragment_Objects extends Fragment {
 
                     for(Element element : elements1){
                         elements.add(element);
+
+                        element1 = new Element();
+                        element1.setId(element.getId());
+                        element1.setAreaID(element.getAreaID());
+                        element1.setSectionID(element.getSectionID());
+                        element1.setRFID(element.getRFID());
+                        element1.setLable(element.getLable());
+                        element1.setDescriptor(element.getDescriptor());
+                        element1.setState(element.getState());
+                        element1.setObservations(element.getObservations());
+
                     }
 
                     getAreas();
@@ -140,6 +169,10 @@ public class Fragment_Objects extends Fragment {
 
                     for (Area area : areas) {
                         areasObjects.add(area);
+
+                        area1 = new Area();
+                        area1.setId(area.getId());
+                        area1.setName(area.getName());
                     }
 
                     getSections();
@@ -170,6 +203,10 @@ public class Fragment_Objects extends Fragment {
 
                     for (Section section : sections) {
                         sectionObjects.add(section);
+
+                        section1 = new Section();
+                        section1.setId(section.getId());
+                        section1.setName(section.getName());
                     }
                     loadList();
 

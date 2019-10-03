@@ -17,7 +17,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             <Spinner
                 android:id="@+id/AreaSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <ImageButton
                 android:id="@+id/AddNewArea"
@@ -52,24 +52,19 @@
                 android:src="@android:drawable/ic_input_add" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center">
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary" />
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -106,24 +101,19 @@
                 android:src="@android:drawable/ic_input_add" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center">
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            />
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary" />
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -146,21 +136,21 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="RFID"/>
+            android:hint="RFID" />
 
         <EditText
             android:id="@+id/Label"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="Etiqueta"/>
+            android:hint="Etiqueta" />
 
         <EditText
             android:id="@+id/Descriptor"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="Descriptor"/>
+            android:hint="Descriptor" />
 
         <TextView
             android:layout_width="match_parent"
@@ -179,23 +169,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activo"/>
+                android:text="Activo" />
 
             <RadioButton
                 android:id="@+id/ActiveRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inactivo"/>
+                android:text="Inactivo" />
 
             <RadioButton
                 android:id="@+id/InactiveRB"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -204,7 +194,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="Observaciones"/>
+            android:hint="Observaciones" />
 
     </LinearLayout>
 
@@ -219,14 +209,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="70dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:onClick=""/>
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_save"
-            android:onClick="checkInputs"/>
+            android:onClick="checkInputs" />
     </LinearLayout>
 
 </LinearLayout>

@@ -9,14 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/AddObject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:gravity="center"
-        android:layout_gravity="center" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="@color/colorWhite"
+        android:background="@drawable/circle_button"
+        android:layout_gravity="right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"/>
 
 </LinearLayout>

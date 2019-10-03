@@ -2,7 +2,9 @@ package com.example.monitoreo.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Element {
+import java.io.Serializable;
+
+public class Element implements Serializable {
 
     @SerializedName("identificadorRfId")
     private String RFID;
@@ -28,14 +30,18 @@ public class Element {
     @SerializedName("seccionId")
     private Integer SectionID;
 
+    public Element(){
+
+    }
+
     public Element(String RFID, String lable, String descriptor, Boolean state, String observations, Integer areaID, Integer sectionID) {
         this.RFID = RFID;
-        Lable = lable;
-        Descriptor = descriptor;
-        State = state;
-        Observations = observations;
-        AreaID = areaID;
-        SectionID = sectionID;
+        this.Lable = lable;
+        this.Descriptor = descriptor;
+        this.State = state;
+        this.Observations = observations;
+        this.AreaID = areaID;
+        this.SectionID = sectionID;
     }
 
     public String getRFID() {

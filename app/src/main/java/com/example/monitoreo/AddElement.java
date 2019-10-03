@@ -31,14 +31,14 @@ import retrofit2.Response;
 
 public class AddElement extends AppCompatActivity {
 
+    public static String action;
     ArrayList<String> areaList;
     ArrayList<Area> areasObjects;
     ArrayList<String> sectionList;
     ArrayList<Section> sectionObjects;
-
     int idSelectedSection, idSelectedArea;
     Boolean StateElement;
-
+    int idElementModify;
     private APIService mAPIService;
     private ImageButton AddNewArea, AddNewSection, CancelElement;
     private Spinner AreaSpinner, SectionSpinner;
@@ -46,12 +46,11 @@ public class AddElement extends AppCompatActivity {
     private TextView action_to_do_element;
     private RadioButton ActiveRB, InactiveRB;
 
-    public static String action;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_element);
+
         //TextView
         action_to_do_element = findViewById(R.id.action_to_do_element);
         //Image Button
@@ -85,60 +84,99 @@ public class AddElement extends AppCompatActivity {
                     action_to_do_element.setText("Modificar Elemento");
                     break;
             }
-
-            ActiveRB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        StateElement = true;
-                        InactiveRB.setChecked(false);
-                    }
-                }
-            });
-
-            InactiveRB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        StateElement = false;
-                        ActiveRB.setChecked(false);
-                    }
-                }
-            });
-
-            AddNewArea.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = null;
-                    intent = new Intent(getApplicationContext(), AddArea.class);
-                    startActivity(intent);
-                }
-            });
-
-            AddNewSection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = null;
-                    intent = new Intent(getApplicationContext(), AddSection.class);
-                    startActivity(intent);
-                }
-            });
-
-            CancelElement.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         getAreas();
         getSections();
+
+        ActiveRB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    StateElement = true;
+                    InactiveRB.setChecked(false);
+                }
+            }
+        });
+
+        InactiveRB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    StateElement = false;
+                    ActiveRB.setChecked(false);
+                }
+            }
+        });
+
+        AddNewArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                intent = new Intent(getApplicationContext(), AddArea.class);
+                startActivity(intent);
+            }
+        });
+
+        AddNewSection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                intent = new Intent(getApplicationContext(), AddSection.class);
+                startActivity(intent);
+            }
+        });
+
+        CancelElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    public void loadData() {
+        Area area = null;
+        Section section = null;
+        Element element = null;
+
+        Bundle objectSent = getIntent().getExtras();
+
+        if (objectSent != null) {
+            element = (Element) objectSent.getSerializable("element");
+            area = (Area) objectSent.getSerializable("area");
+            section = (Section) objectSent.getSerializable("section");
+
+            idElementModify = element.getId();
+
+            System.out.println("Tamaño de spinner " + areasObjects.size());
+
+            for (int i = 0; i < areasObjects.size(); i++) {
+                if (areasObjects.get(i).getId().equals(area.getId())) {
+                    AreaSpinner.setSelection(i + 1);
+                }
+            }
+
+            for (int i = 0; i < sectionObjects.size(); i++) {
+                if (sectionObjects.get(i).getId().equals(section.getId())) {
+                    SectionSpinner.setSelection(i + 1);
+                }
+            }
+
+            RFID.setText(element.getRFID());
+            Label.setText(element.getLable());
+            Descriptor.setText(element.getDescriptor());
+            Observations.setText(element.getObservations());
+
+            if (element.getState()) {
+                ActiveRB.setChecked(true);
+            } else {
+                InactiveRB.setChecked(true);
+            }
+        }
+
+
     }
 
     private void getSections() {
@@ -177,6 +215,9 @@ public class AddElement extends AppCompatActivity {
 
                         }
                     });
+                    if(action == "modify") {
+                        loadData();
+                    }
                 } else {
                     Log.e("AddElement Section", "onFailure: " + response.message());
                 }
@@ -234,6 +275,9 @@ public class AddElement extends AppCompatActivity {
 
                         }
                     });
+                    if(action == "modify") {
+                        loadData();
+                    }
                 } else {
                     Log.e("AddElement Area", "onFailure: " + response.message());
                     return;
@@ -312,7 +356,7 @@ public class AddElement extends AppCompatActivity {
 
         Element element = new Element(rfid, lable, descriptor, state, observations, Area, Section);
 
-        Call <Element> call = mAPIService.createElement(MainActivity.tokenAuth, element);
+        Call<Element> call = mAPIService.createElement(MainActivity.tokenAuth, element);
 
         call.enqueue(new Callback<Element>() {
             @Override
@@ -332,4 +376,5 @@ public class AddElement extends AppCompatActivity {
         });
 
     }
+
 }

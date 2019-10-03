@@ -2,13 +2,19 @@ package com.example.monitoreo.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Section {
+import java.io.Serializable;
+
+public class Section implements Serializable {
 
     @SerializedName("id")
     private Integer id;
 
     @SerializedName("nombre")
     private String name;
+
+    public Section(){
+
+    }
 
     public Section(String name) {
         this.name = name;
