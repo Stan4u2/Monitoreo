@@ -3,6 +3,7 @@ package com.example.monitoreo.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,11 +61,11 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
         holder.item_list_section.setText(Section);
 
         if(listElement.get(position).getState()){
-            //Set icon if its active
-            //holder.purchasePaidList.setImageResource(R.drawable.ic_pagado);
+            //Set background if its active
+            holder.ElementState.setBackgroundResource(R.drawable.ic_ative);
         }else{
-            //Set icon if its inactive
-            //holder.purchasePaidList.setImageResource(R.drawable.ic_pagado);
+            //Set background if its inactive
+            holder.ElementState.setBackgroundResource(R.drawable.ic_inactive);
         }
     }
 
@@ -77,7 +78,8 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
     public class ViewHolderObjects extends RecyclerView.ViewHolder {
         TextView item_list_element, item_list_area, item_list_section;
         ImageView ElementState;
-        public ViewHolderObjects(@NonNull View itemView) {
+        ImageButton EditButton, DeleteButton;
+        public ViewHolderObjects(@NonNull final View itemView) {
             super(itemView);
             //Text View
             item_list_element = itemView.findViewById(R.id.item_list_element);
@@ -85,6 +87,23 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
             item_list_section = itemView.findViewById(R.id.item_list_section);
             //ImageView
             ElementState = itemView.findViewById(R.id.ElementState);
+            //Image Button
+            EditButton = itemView.findViewById(R.id.EditButton);
+            DeleteButton = itemView.findViewById(R.id.DeleteButton);
+
+            DeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int i = getAdapterPosition();
+                }
+            });
+
+            EditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int i = getAdapterPosition();
+                }
+            });
         }
     }
 

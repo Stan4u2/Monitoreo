@@ -85,6 +85,12 @@ public class Fragment_Objects extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getElements();
+    }
+
     private void loadList() {
         System.out.println("Size Elements: " + elements.size());
         System.out.println("Size Area: " + areasObjects.size());
@@ -113,7 +119,6 @@ public class Fragment_Objects extends Fragment {
 
         ElementsRecyclerView.setAdapter(adapter_objects);
     }
-
 
     private void getElements (){
 

@@ -8,4 +8,7 @@
     <color name="submenu">#33172E</color>
     <color name="shadow">#99000000</color>
     <color name="menuBackGround">#FAFAFA</color>
+    <color name="InactiveFinish">#870C24</color>
+    <color name="InactiveStart">#FF1744</color>
+
 </resources>
