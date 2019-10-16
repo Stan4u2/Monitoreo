@@ -59,7 +59,7 @@ public class AddArea extends AppCompatActivity {
 
     public void saveArea(View view) {
         if (!NewArea.getText().toString().isEmpty()) {
-            Area area = new Area(NewArea.getText().toString());
+            Area area = new Area(NewArea.getText().toString(), true);
 
             Call<Area> call = mAPIService.createArea(MainActivity.tokenAuth, area);
 

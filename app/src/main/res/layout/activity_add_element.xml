@@ -24,46 +24,52 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Area"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp">
 
-            <Spinner
-                android:id="@+id/AreaSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/AddNewArea"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@null"
-                android:src="@android:drawable/ic_input_add" />
+                android:text="Área"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="2dp"
-                android:background="@color/colorPrimary" />
+            <Spinner
+                android:id="@+id/AreaSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_weight="1" />
 
+            <Button
+                android:id="@+id/AddNewArea"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:textSize="22dp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/ic_list_item_background2"
+                android:backgroundTint="@color/colorPrimary"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -73,46 +79,52 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sección"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Sección"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <Spinner
                 android:id="@+id/SectionSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/AddNewSection"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@null"
-                android:src="@android:drawable/ic_input_add" />
-        </LinearLayout>
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_weight="1"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="2dp"
-                android:background="@color/colorPrimary" />
-
+            <Button
+                android:id="@+id/AddNewSection"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:textSize="22dp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/ic_list_item_background2"
+                android:backgroundTint="@color/colorPrimary" />
         </LinearLayout>
 
     </LinearLayout>
@@ -121,66 +133,82 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Elemento"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Elemento"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/RFID"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="RFID" />
+            android:textSize="20dp"
+            android:hint="RFID"
+            android:textColor="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/Label"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="Etiqueta" />
+            android:hint="Etiqueta"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/Descriptor"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:foregroundGravity="center"
-            android:hint="Descriptor" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estado"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:foregroundGravity="center"
+            android:hint="Descriptor"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activo" />
+                android:textSize="20dp"
+                android:text="Activo"
+                android:textColor="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/ActiveRB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="40dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inactivo" />
+                android:text="Inactivo"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/InactiveRB"
@@ -191,31 +219,31 @@
 
         <EditText
             android:id="@+id/Observations"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
-            android:hint="Observaciones" />
+            android:hint="Observaciones"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="right"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/CancelElement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="70dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_save"
-            android:onClick="checkInputs" />
+            android:id="@+id/AddObject"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_save_black_24dp"
+            android:background="@drawable/circle_button"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:onClick="checkInputs"/>
     </LinearLayout>
 
 </LinearLayout>

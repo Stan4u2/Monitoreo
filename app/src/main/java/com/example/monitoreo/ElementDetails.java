@@ -1,9 +1,6 @@
 package com.example.monitoreo;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +12,6 @@ import com.example.monitoreo.data.model.Section;
 public class ElementDetails extends AppCompatActivity {
 
     TextView areaTextView, sectionTextView, RFIDTextView, LableTextView, DescriptorTextView, StateTextView, ObservationsTextView;
-    Button DeleteElementButton, ModifyElementButton;
 
     Element element = null;
     Area area = null;
@@ -34,10 +30,6 @@ public class ElementDetails extends AppCompatActivity {
         DescriptorTextView = findViewById(R.id.DescriptorTextView);
         StateTextView = findViewById(R.id.StateTextView);
         ObservationsTextView = findViewById(R.id.ObservationsTextView);
-
-        //Buttons
-        DeleteElementButton = findViewById(R.id.DeleteElementButton);
-        ModifyElementButton = findViewById(R.id.ModifyElementButton);
 
         Bundle objectSent = getIntent().getExtras();
 
@@ -60,19 +52,6 @@ public class ElementDetails extends AppCompatActivity {
             ObservationsTextView.setText(element.getObservations());
         }
 
-    }
-
-    public void modifyElement(View view){
-        Intent intent = new Intent(view.getContext(), AddElement.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("action", "modify");
-        bundle.putSerializable("element", element);
-        bundle.putSerializable("area", area);
-        bundle.putSerializable("section", section);
-
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
 }

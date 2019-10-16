@@ -9,6 +9,9 @@ public class Area implements Serializable {
     @SerializedName("id")
     private Integer id;
 
+    @SerializedName("activa")
+    private Boolean activa;
+
     @SerializedName("nombre")
     private String name;
 
@@ -16,8 +19,9 @@ public class Area implements Serializable {
 
     }
 
-    public Area(String name) {
+    public Area(String name, Boolean activa) {
         this.name = name;
+        this.activa = activa;
     }
 
     public Integer getId() {
@@ -28,6 +32,14 @@ public class Area implements Serializable {
         this.id = id;
     }
 
+    public Boolean getActiva() {
+        return activa;
+    }
+
+    public void setActiva(Boolean activa) {
+        this.activa = activa;
+    }
+
     public String getName() {
         return name;
     }
@@ -35,5 +47,6 @@ public class Area implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 
 }

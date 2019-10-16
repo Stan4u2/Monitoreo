@@ -7,11 +7,16 @@ import com.example.monitoreo.data.model.User;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface APIService {
@@ -19,8 +24,17 @@ public interface APIService {
     @GET("areas")
     Call<List<Area>> getAllAreas(@Header("Authorization") String access_token);
 
+    @GET("areas/{id}")
+    Call<Area> getElementArea(@Header("Authorization") String access_token, @Path("id") long id);
+
     @GET("secciones")
     Call<List<Section>> getAllSections(@Header("Authorization") String access_token);
+
+    @GET("secciones/{id}")
+    Call<Section> getElementSection(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @GET("areas/{id}/secciones")
+    Call<List<Section>> getSectionsWithArea(@Header("Authorization") String access_token, @Path("id") long id);
 
     @GET("elementos")
     Call<List<Element>> getAllElements(@Header("Authorization") String access_token);
@@ -35,7 +49,7 @@ public interface APIService {
     Call<Area> createArea(@Header("Authorization") String access_token, @Body Area area);
 
     @POST("elementos")
-    Call<Element> createElement (@Header("Authorization") String access_token, @Body Element element);
+    Call<Element> createElement(@Header("Authorization") String access_token, @Body Element element);
 
     @POST("usuarios/login")
     Call<User> login(@Body User user);
@@ -45,5 +59,20 @@ public interface APIService {
 
     @POST("usuarios/logout")
     Call<APIService> logOut(@Header("Authorization") String access_token);
+
+    @FormUrlEncoded
+    @PUT("elementos/{id}")
+    Call<Element> updateElement(@Header("Authorization") String access_token,
+                                @Path("id") long id,
+                                @Field("identificadorRfId") String RFID,
+                                @Field("etiqueta") String lable,
+                                @Field("descriptor") String descriptor,
+                                @Field("activo") Boolean state,
+                                @Field("observaciones") String Observations,
+                                @Field("areaId") long areaID,
+                                @Field("seccionId") long sectionID);
+
+    @DELETE("elementos/{id}")
+    Call<ResponseBody> deleteElement(@Header("Authorization") String access_token, @Path("id") long id);
 
 }

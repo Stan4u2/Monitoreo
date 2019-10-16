@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,19 +32,21 @@ import retrofit2.Response;
 public class AddElement extends AppCompatActivity {
 
     public static String action;
+    static int idElementModify;
     ArrayList<String> areaList;
     ArrayList<Area> areasObjects;
     ArrayList<String> sectionList;
     ArrayList<Section> sectionObjects;
     int idSelectedSection, idSelectedArea;
     Boolean StateElement;
-    int idElementModify;
+    Bundle objectSent;
     private APIService mAPIService;
-    private ImageButton AddNewArea, AddNewSection, CancelElement;
+    private Button AddNewArea, AddNewSection;
     private Spinner AreaSpinner, SectionSpinner;
     private EditText RFID, Label, Descriptor, Observations;
     private TextView action_to_do_element;
     private RadioButton ActiveRB, InactiveRB;
+    private Boolean loadInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +55,9 @@ public class AddElement extends AppCompatActivity {
 
         //TextView
         action_to_do_element = findViewById(R.id.action_to_do_element);
-        //Image Button
+        //Button
         AddNewArea = findViewById(R.id.AddNewArea);
         AddNewSection = findViewById(R.id.AddNewSection);
-        CancelElement = findViewById(R.id.CancelElement);
         //Spinner
         AreaSpinner = findViewById(R.id.AreaSpinner);
         SectionSpinner = findViewById(R.id.SectionSpinner);
@@ -71,7 +72,7 @@ public class AddElement extends AppCompatActivity {
 
         mAPIService = APIUtils.getAPIService();
 
-        Bundle objectSent = getIntent().getExtras();
+        objectSent = getIntent().getExtras();
 
         if (objectSent != null) {
             action = objectSent.getSerializable("action").toString();
@@ -82,12 +83,12 @@ public class AddElement extends AppCompatActivity {
                     break;
                 case "modify":
                     action_to_do_element.setText("Modificar Elemento");
+                    loadInfo = true;
                     break;
             }
         }
 
         getAreas();
-        getSections();
 
         ActiveRB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -127,115 +128,50 @@ public class AddElement extends AppCompatActivity {
             }
         });
 
-        CancelElement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
     }
 
     public void loadData() {
-        Area area = null;
-        Section section = null;
-        Element element = null;
+        if(loadInfo) {
+            Area area = null;
+            Section section = null;
+            Element element = null;
 
-        Bundle objectSent = getIntent().getExtras();
+            if (objectSent != null) {
+                element = (Element) objectSent.getSerializable("element");
+                area = (Area) objectSent.getSerializable("area");
+                section = (Section) objectSent.getSerializable("section");
 
-        if (objectSent != null) {
-            element = (Element) objectSent.getSerializable("element");
-            area = (Area) objectSent.getSerializable("area");
-            section = (Section) objectSent.getSerializable("section");
+                idElementModify = element.getId();
 
-            idElementModify = element.getId();
+                System.out.println("Tamaño de spinner " + areasObjects.size());
 
-            System.out.println("Tamaño de spinner " + areasObjects.size());
-
-            for (int i = 0; i < areasObjects.size(); i++) {
-                if (areasObjects.get(i).getId().equals(area.getId())) {
-                    AreaSpinner.setSelection(i + 1);
-                }
-            }
-
-            for (int i = 0; i < sectionObjects.size(); i++) {
-                if (sectionObjects.get(i).getId().equals(section.getId())) {
-                    SectionSpinner.setSelection(i + 1);
-                }
-            }
-
-            RFID.setText(element.getRFID());
-            Label.setText(element.getLable());
-            Descriptor.setText(element.getDescriptor());
-            Observations.setText(element.getObservations());
-
-            if (element.getState()) {
-                ActiveRB.setChecked(true);
-            } else {
-                InactiveRB.setChecked(true);
-            }
-        }
-
-
-    }
-
-    private void getSections() {
-        sectionObjects = new ArrayList<Section>();
-
-        Call<List<Section>> call = mAPIService.getAllSections(MainActivity.tokenAuth);
-
-        call.enqueue(new Callback<List<Section>>() {
-            @Override
-            public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
-                if (response.isSuccessful()) {
-                    List<Section> sections = response.body();
-
-                    for (Section section : sections) {
-                        sectionObjects.add(section);
+                for (int i = 0; i < areasObjects.size(); i++) {
+                    if (areasObjects.get(i).getId().equals(area.getId())) {
+                        AreaSpinner.setSelection(i + 1);
                     }
+                }
 
-                    obtainList_Sections();
-
-                    ArrayAdapter adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, sectionList);
-
-                    SectionSpinner.setAdapter(adapter);
-
-                    SectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (position != 0) {
-                                idSelectedSection = sectionObjects.get(position - 1).getId();
-                            } else {
-                                idSelectedSection = 0;
-                            }
+                if (sectionObjects != null) {
+                    for (int i = 0; i < sectionObjects.size(); i++) {
+                        if (sectionObjects.get(i).getId().equals(section.getId())) {
+                            System.out.println("Seccion Selecionada" + section.getId());
+                            SectionSpinner.setSelection(i + 1);
+                            loadInfo = false;
                         }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    if(action == "modify") {
-                        loadData();
                     }
+                }
+
+                RFID.setText(element.getRFID());
+                Label.setText(element.getLable());
+                Descriptor.setText(element.getDescriptor());
+                Observations.setText(element.getObservations());
+
+                if (element.getState()) {
+                    ActiveRB.setChecked(true);
                 } else {
-                    Log.e("AddElement Section", "onFailure: " + response.message());
+                    InactiveRB.setChecked(true);
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<Section>> call, Throwable t) {
-                Log.e("AddElement Section", "onFailure: " + t.getMessage());
-            }
-        });
-    }
-
-    private void obtainList_Sections() {
-        //Fill the array list with all the sections
-        sectionList = new ArrayList<String>();
-        sectionList.add("Seleccione");
-        for (int i = 0; i < sectionObjects.size(); i++) {
-            sectionList.add(sectionObjects.get(i).getName());
         }
     }
 
@@ -263,19 +199,24 @@ public class AddElement extends AppCompatActivity {
                     AreaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            System.out.println("position " + position);
                             if (position != 0) {
                                 idSelectedArea = areasObjects.get(position - 1).getId();
+                                System.out.println("Selected Area " + idSelectedArea);
+                                getSections();
                             } else {
                                 idSelectedArea = 0;
+                                getSections();
                             }
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-
+                            idSelectedArea = 0;
+                            getSections();
                         }
                     });
-                    if(action == "modify") {
+                    if (action.equals("modify")) {
                         loadData();
                     }
                 } else {
@@ -297,6 +238,75 @@ public class AddElement extends AppCompatActivity {
         areaList.add("Seleccione");
         for (int i = 0; i < areasObjects.size(); i++) {
             areaList.add(areasObjects.get(i).getName());
+        }
+    }
+
+    private void getSections() {
+        sectionObjects = new ArrayList<Section>();
+
+        Call<List<Section>> call = mAPIService.getSectionsWithArea(MainActivity.tokenAuth, idSelectedArea);
+
+        call.enqueue(new Callback<List<Section>>() {
+            @Override
+            public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
+                if (response.isSuccessful()) {
+                    List<Section> sections = response.body();
+
+                    for (Section section : sections) {
+                        sectionObjects.add(section);
+                    }
+
+                    obtainList_Sections();
+                    setListSectionsToSpinner();
+
+                    if (action.equals("modify")) {
+                        loadData();
+                    }
+                } else {
+                    Log.e("AddElement Section", "onFailure: " + response.message());
+                    if (response.message().equals("Not Found")) {
+                        System.out.println("Yaaaaa");
+                        obtainList_Sections();
+                        setListSectionsToSpinner();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Section>> call, Throwable t) {
+                Log.e("AddElement Section", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void setListSectionsToSpinner() {
+        ArrayAdapter adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, sectionList);
+
+        SectionSpinner.setAdapter(adapter);
+
+        SectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    idSelectedSection = sectionObjects.get(position - 1).getId();
+                } else {
+                    idSelectedSection = 0;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void obtainList_Sections() {
+        //Fill the array list with all the sections
+        sectionList = new ArrayList<String>();
+        sectionList.add("Seleccione");
+        for (int i = 0; i < sectionObjects.size(); i++) {
+            sectionList.add(sectionObjects.get(i).getName());
         }
     }
 
@@ -340,21 +350,33 @@ public class AddElement extends AppCompatActivity {
         }
 
         if (noBlankSpaces) {
-            saveElement(
-                    idSelectedArea,
-                    idSelectedSection,
-                    RFID.getText().toString(),
-                    Label.getText().toString(),
-                    Descriptor.getText().toString(),
-                    StateElement,
-                    Observations.getText().toString()
-            );
+            if (action.equals("insert")) {
+                saveElement(
+                        idSelectedArea,
+                        idSelectedSection,
+                        RFID.getText().toString(),
+                        Label.getText().toString(),
+                        Descriptor.getText().toString(),
+                        StateElement,
+                        Observations.getText().toString()
+                );
+            } else if (action.equals("modify")) {
+                modifyElement(
+                        idElementModify,
+                        idSelectedArea,
+                        idSelectedSection,
+                        RFID.getText().toString(),
+                        Label.getText().toString(),
+                        Descriptor.getText().toString(),
+                        StateElement,
+                        Observations.getText().toString());
+            }
         }
     }
 
-    private void saveElement(int Area, int Section, String rfid, String lable, String descriptor, Boolean state, String observations) {
+    private void saveElement(int area, int section, String rfid, String lable, String descriptor, Boolean state, String observations) {
 
-        Element element = new Element(rfid, lable, descriptor, state, observations, Area, Section);
+        Element element = new Element(rfid, lable, descriptor, state, observations, area, section);
 
         Call<Element> call = mAPIService.createElement(MainActivity.tokenAuth, element);
 
@@ -377,4 +399,33 @@ public class AddElement extends AppCompatActivity {
 
     }
 
+    private void modifyElement(Integer idElement, Integer area, Integer section, String rfid, String lable, String descriptor, Boolean state, String observations) {
+        Call<Element> call = mAPIService.updateElement(
+                MainActivity.tokenAuth,
+                idElement,
+                rfid,
+                lable,
+                descriptor,
+                state,
+                observations,
+                area,
+                section);
+
+        call.enqueue(new Callback<Element>() {
+            @Override
+            public void onResponse(Call<Element> call, Response<Element> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Modificación Elemento Exitoso", Toast.LENGTH_LONG).show();
+                    finish();
+                } else if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Modificación Elemento Fallido", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Element> call, Throwable t) {
+                Log.e("ModifyElement", "onFailure: " + t.getMessage());
+            }
+        });
+    }
 }

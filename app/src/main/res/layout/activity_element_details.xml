@@ -24,87 +24,109 @@
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimary" />
 
-        <TextView
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@drawable/ic_info_outline_black_24dp"
+            android:tint="@color/colorPrimary"
+            android:layout_gravity="center" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Area"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Área"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/areaTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Area"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="2dp"
-                android:background="@color/colorPrimary" />
-
-        </LinearLayout>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Secciòn"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Secciòn"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/sectionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Seccion"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="300dp"
-                android:layout_height="2dp"
-                android:background="@color/colorPrimary" />
-
-        </LinearLayout>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Elemento"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@drawable/ic_list_item_background2"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Elemento"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="RFID: "
                 android:textAlignment="center"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/RFIDTextView"
@@ -112,7 +134,8 @@
                 android:layout_height="wrap_content"
                 android:text="RFID"
                 android:textAlignment="center"
-                android:textSize="19sp" />
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -120,15 +143,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Etiqueta: "
-                android:textAlignment="center"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/LableTextView"
@@ -136,7 +159,8 @@
                 android:layout_height="wrap_content"
                 android:text="Etiqueta"
                 android:textAlignment="center"
-                android:textSize="19sp" />
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -144,15 +168,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Descriptor: "
                 android:textAlignment="center"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/DescriptorTextView"
@@ -160,7 +185,8 @@
                 android:layout_height="wrap_content"
                 android:text="Descriptor"
                 android:textAlignment="center"
-                android:textSize="19sp" />
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -168,15 +194,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Estado: "
                 android:textAlignment="center"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/StateTextView"
@@ -184,7 +211,8 @@
                 android:layout_height="wrap_content"
                 android:text="Estado"
                 android:textAlignment="center"
-                android:textSize="19sp" />
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -192,15 +220,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Observaciones: "
                 android:textAlignment="center"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/ObservationsTextView"
@@ -208,37 +237,8 @@
                 android:layout_height="wrap_content"
                 android:text="Observaciones"
                 android:textAlignment="center"
-                android:textSize="19sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="bottom">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-
-                <Button
-                    android:id="@+id/DeleteElementButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BORRAR"
-                    android:layout_marginRight="50dp"/>
-
-                <Button
-                    android:id="@+id/ModifyElementButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MODIFICAR"
-                    android:onClick="modifyElement"/>
-
-            </LinearLayout>
-
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 

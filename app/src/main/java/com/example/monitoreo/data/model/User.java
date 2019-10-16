@@ -7,6 +7,9 @@ public class User {
     @SerializedName("nombre")
     private String name;
 
+    @SerializedName("isAdmin")
+    private Boolean isAdmin;
+
     @SerializedName("username")
     private String username;
 
@@ -26,8 +29,9 @@ public class User {
     @SerializedName("id")
     private String id;
 
-    public User(String name, String username, String email, String password, Integer ttl) {
+    public User(String name, Boolean isAdmin, String username, String email, String password, Integer ttl) {
         this.name = name;
+        this.isAdmin = isAdmin;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -40,6 +44,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     public String getUsername() {

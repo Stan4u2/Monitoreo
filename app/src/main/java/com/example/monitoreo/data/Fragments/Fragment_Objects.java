@@ -34,19 +34,15 @@ import retrofit2.Response;
 
 public class Fragment_Objects extends Fragment {
 
-    private ArrayList<Area> areasObjects;
-    private ArrayList<Section> sectionObjects;
-    private ArrayList<Element> elements;
-
-    private APIService mAPIService;
-
     RecyclerView ElementsRecyclerView;
-
     ImageButton AddObject;
-
     Element element1 = null;
     Area area1 = null;
     Section section1 = null;
+    private ArrayList<Area> areasObjects;
+    private ArrayList<Section> sectionObjects;
+    private ArrayList<Element> elements;
+    private APIService mAPIService;
 
     @Nullable
     @Override
@@ -58,7 +54,6 @@ public class Fragment_Objects extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         ElementsRecyclerView.setLayoutManager(llm);
-        //list.setAdapter( adapter );
         //Button
         AddObject = view.findViewById(R.id.AddObject);
 
@@ -72,15 +67,12 @@ public class Fragment_Objects extends Fragment {
 
                 miIntent = new Intent(view.getContext(), AddElement.class);
                 bundle.putSerializable("action", "insert");
-
-                if (miIntent != null) {
-                    miIntent.putExtras(bundle);
-                    view.getContext().startActivity(miIntent);
-                }
+                miIntent.putExtras(bundle);
+                view.getContext().startActivity(miIntent);
             }
         });
 
-        getElements();
+        //getElements();
 
         return view;
     }
@@ -92,11 +84,9 @@ public class Fragment_Objects extends Fragment {
     }
 
     private void loadList() {
-        System.out.println("Size Elements: " + elements.size());
-        System.out.println("Size Area: " + areasObjects.size());
-        System.out.println("Size Section: " + sectionObjects.size());
 
         Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects);
+
 
         adapter_objects.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +94,8 @@ public class Fragment_Objects extends Fragment {
                 Element element = elements.get(ElementsRecyclerView.getChildAdapterPosition(view));
                 Area area = areasObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
                 Section section = sectionObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
+
+                System.out.println(section.getName());
 
                 Intent intent = new Intent(view.getContext(), ElementDetails.class);
 
@@ -120,7 +112,7 @@ public class Fragment_Objects extends Fragment {
         ElementsRecyclerView.setAdapter(adapter_objects);
     }
 
-    private void getElements (){
+    private void getElements() {
 
         elements = new ArrayList<Element>();
 
@@ -132,7 +124,7 @@ public class Fragment_Objects extends Fragment {
                 if (response.isSuccessful()) {
                     List<Element> elements1 = response.body();
 
-                    for(Element element : elements1){
+                    for (Element element : elements1) {
                         elements.add(element);
 
                         element1 = new Element();
@@ -145,10 +137,11 @@ public class Fragment_Objects extends Fragment {
                         element1.setState(element.getState());
                         element1.setObservations(element.getObservations());
 
-                    }
+                        getElementArea(element.getAreaID());
+                        getElementSection(element.getSectionID());
 
-                    getAreas();
-                }else{
+                    }
+                } else {
                     Log.e("FragmentObjects Elements", "onFailure: " + response.message());
                     return;
                 }
@@ -161,67 +154,56 @@ public class Fragment_Objects extends Fragment {
         });
     }
 
-    private void getAreas() {
+    private void getElementArea(int idArea) {
         areasObjects = new ArrayList<Area>();
 
-        Call<List<Area>> call = mAPIService.getAllAreas(MainActivity.tokenAuth);
+        Call<Area> call = mAPIService.getElementArea(MainActivity.tokenAuth, idArea);
 
-        call.enqueue(new Callback<List<Area>>() {
+        call.enqueue(new Callback<Area>() {
             @Override
-            public void onResponse(Call<List<Area>> call, Response<List<Area>> response) {
+            public void onResponse(Call<Area> call, Response<Area> response) {
                 if (response.isSuccessful()) {
-                    List<Area> areas = response.body();
+                    area1 = new Area();
+                    area1.setId(response.body().getId());
+                    area1.setName(response.body().getName());
 
-                    for (Area area : areas) {
-                        areasObjects.add(area);
-
-                        area1 = new Area();
-                        area1.setId(area.getId());
-                        area1.setName(area.getName());
-                    }
-
-                    getSections();
-
+                    areasObjects.add(area1);
                 } else {
                     Log.e("FragmentObjects Area", "onFailure: " + response.message());
-                    return;
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Area>> call, Throwable t) {
+            public void onFailure(Call<Area> call, Throwable t) {
                 Log.e("FragmentObjects Area", "onFailure: " + t.getMessage());
             }
         });
     }
 
-    private void getSections() {
+    private void getElementSection(int idSection) {
         sectionObjects = new ArrayList<Section>();
 
-        Call<List<Section>> call = mAPIService.getAllSections(MainActivity.tokenAuth);
+        Call<Section> call = mAPIService.getElementSection(MainActivity.tokenAuth, idSection);
 
-        call.enqueue(new Callback<List<Section>>() {
+        call.enqueue(new Callback<Section>() {
             @Override
-            public void onResponse(Call<List<Section>> call, Response<List<Section>> response) {
+            public void onResponse(Call<Section> call, Response<Section> response) {
                 if (response.isSuccessful()) {
-                    List<Section> sections = response.body();
 
-                    for (Section section : sections) {
-                        sectionObjects.add(section);
+                    section1 = new Section();
+                    section1.setId(response.body().getId());
+                    section1.setName(response.body().getName());
 
-                        section1 = new Section();
-                        section1.setId(section.getId());
-                        section1.setName(section.getName());
-                    }
+                    sectionObjects.add(section1);
+
                     loadList();
-
                 } else {
                     Log.e("FragmentObjects Section", "onFailure: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Section>> call, Throwable t) {
+            public void onFailure(Call<Section> call, Throwable t) {
                 Log.e("FragmentObjects Section", "onFailure: " + t.getMessage());
             }
         });

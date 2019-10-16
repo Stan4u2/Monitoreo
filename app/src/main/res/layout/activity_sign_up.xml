@@ -18,7 +18,7 @@
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:gravity="center"/>
+            android:gravity="center" />
 
     </RelativeLayout>
 
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SIGN UP"
+                android:text="CREAR NUEVO USUARIO"
                 android:textSize="30dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/colorFinalGradient"
@@ -126,6 +126,33 @@
                 android:backgroundTint="@color/colorFinalGradient"
                 android:inputType="textPassword" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="Permisos"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/colorFinalGradient" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorFinalGradient"
+                    android:text="Admin" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Normal" />
+            </RadioGroup>
+
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="170dp"
@@ -135,7 +162,7 @@
                 android:layout_gravity="center"
                 android:text="SIGN UP"
                 android:textColor="@color/colorWhite"
-                android:onClick="signUp"/>
+                android:onClick="signUp" />
 
         </LinearLayout>
     </LinearLayout>

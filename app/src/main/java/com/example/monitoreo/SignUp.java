@@ -1,13 +1,13 @@
 package com.example.monitoreo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.monitoreo.data.model.User;
 import com.example.monitoreo.data.remote.APIService;
@@ -58,7 +58,7 @@ public class SignUp extends AppCompatActivity {
         }
 
         //Create a new object with the new user values
-        User user = new User(nameEditText.getText().toString(), userEditText.getText().toString(), emailEditText.getText().toString(), passwordEditText.getText().toString(), 0);
+        User user = new User(nameEditText.getText().toString(), null, userEditText.getText().toString(), emailEditText.getText().toString(), passwordEditText.getText().toString(), 0);
 
         //Call the APIService class
         Call<User> call = mAPIService.createUser(user);
