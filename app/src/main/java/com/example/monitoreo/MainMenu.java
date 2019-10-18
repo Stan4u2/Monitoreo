@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.monitoreo.data.Fragments.Fragment_Areas;
 import com.example.monitoreo.data.Fragments.Fragment_Home;
 import com.example.monitoreo.data.Fragments.Fragment_Objects;
 import com.example.monitoreo.data.remote.APIService;
@@ -103,6 +104,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.nav_elements:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
+                break;
+            case R.id.nav_areas:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
                 break;
             case R.id.nav_new_user:
                 if (MainActivity.isAdmin) {

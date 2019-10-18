@@ -1,6 +1,7 @@
 package com.example.monitoreo.data.Fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Fragment_Objects extends Fragment {
@@ -39,9 +39,9 @@ public class Fragment_Objects extends Fragment {
     Element element1 = null;
     Area area1 = null;
     Section section1 = null;
-    private ArrayList<Area> areasObjects;
-    private ArrayList<Section> sectionObjects;
-    private ArrayList<Element> elements;
+    private static ArrayList<Area> areasObjects;
+    private static ArrayList<Section> sectionObjects;
+    private static ArrayList<Element> elements;
     private APIService mAPIService;
 
     @Nullable
@@ -72,7 +72,6 @@ public class Fragment_Objects extends Fragment {
             }
         });
 
-        //getElements();
 
         return view;
     }
@@ -80,134 +79,246 @@ public class Fragment_Objects extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getElements();
+        LoadElements loadElements = new LoadElements();
+        loadElements.execute();
     }
 
     private void loadList() {
+        System.out.println("ya");
+        System.out.println("1-Size of elements " + elements.size());
+        System.out.println("1-Size of areas " + areasObjects.size());
+        System.out.println("1-Size of sections " + sectionObjects.size());
+        if (!elements.isEmpty() && !areasObjects.isEmpty() && !sectionObjects.isEmpty()
+                &&
+                elements.size() == areasObjects.size() && areasObjects.size() == sectionObjects.size() && sectionObjects.size() == elements.size()) {
 
-        Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects);
+            Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects);
 
+            adapter_objects.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Element element = elements.get(ElementsRecyclerView.getChildAdapterPosition(view));
+                    Area area = areasObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
+                    Section section = sectionObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
 
-        adapter_objects.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Element element = elements.get(ElementsRecyclerView.getChildAdapterPosition(view));
-                Area area = areasObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
-                Section section = sectionObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
+                    System.out.println(section.getName());
 
-                System.out.println(section.getName());
+                    Intent intent = new Intent(view.getContext(), ElementDetails.class);
 
-                Intent intent = new Intent(view.getContext(), ElementDetails.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("element", element);
+                    bundle.putSerializable("area", area);
+                    bundle.putSerializable("section", section);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("element", element);
-                bundle.putSerializable("area", area);
-                bundle.putSerializable("section", section);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
 
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
-        ElementsRecyclerView.setAdapter(adapter_objects);
+            ElementsRecyclerView.setAdapter(adapter_objects);
+        }
     }
 
-    private void getElements() {
+    public class LoadElements extends AsyncTask<Void, Void, Boolean> {
 
-        elements = new ArrayList<Element>();
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            elements = new ArrayList<Element>();
 
-        Call<List<Element>> call = mAPIService.getAllElements(MainActivity.tokenAuth);
+            Call<List<Element>> call = mAPIService.getAllElements(MainActivity.tokenAuth);
 
-        call.enqueue(new Callback<List<Element>>() {
-            @Override
-            public void onResponse(Call<List<Element>> call, Response<List<Element>> response) {
+            try {
+                Response<List<Element>> response = call.execute();
                 if (response.isSuccessful()) {
                     List<Element> elements1 = response.body();
 
                     for (Element element : elements1) {
                         elements.add(element);
-
-                        element1 = new Element();
-                        element1.setId(element.getId());
-                        element1.setAreaID(element.getAreaID());
-                        element1.setSectionID(element.getSectionID());
-                        element1.setRFID(element.getRFID());
-                        element1.setLable(element.getLable());
-                        element1.setDescriptor(element.getDescriptor());
-                        element1.setState(element.getState());
-                        element1.setObservations(element.getObservations());
-
-                        getElementArea(element.getAreaID());
-                        getElementSection(element.getSectionID());
-
+                        System.out.println("Elemento ID Area " + element.getAreaID() + " ID Seccion " + element.getSectionID());
                     }
-                } else {
+                    return true;
+                }else {
                     Log.e("FragmentObjects Elements", "onFailure: " + response.message());
-                    return;
+                    return false;
                 }
+
+            } catch (Exception e) {
+                Log.e("FragmentObjects Elements", "onFailure: " + e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(aBoolean){
+                new LoadAreas().execute(elements);
+                new LoadSections().execute(elements);
+                /*for (int i = 0; i < elements.size(); i++){
+                    new LoadElementsArea().execute(elements.get(i).getAreaID());
+                    new LoadElementsSection().execute(elements.get(i).getSectionID());
+                }*/
             }
 
-            @Override
-            public void onFailure(Call<List<Element>> call, Throwable t) {
-
-            }
-        });
+        }
     }
 
-    private void getElementArea(int idArea) {
-        areasObjects = new ArrayList<Area>();
+    public class LoadAreas extends AsyncTask<ArrayList<Element>, Void, Void>{
+        ArrayList<Element> elements = new ArrayList<>();
+        @Override
+        protected Void doInBackground(ArrayList<Element>... arrayLists) {
+            //Get the parameters value
+            ArrayList<Element> elements = arrayLists[0];
+            areasObjects = new ArrayList<Area>();
 
-        Call<Area> call = mAPIService.getElementArea(MainActivity.tokenAuth, idArea);
+            Call<List<Area>> call = mAPIService.getAllAreas(MainActivity.tokenAuth);
 
-        call.enqueue(new Callback<Area>() {
-            @Override
-            public void onResponse(Call<Area> call, Response<Area> response) {
+            try {
+                Response<List<Area>> response = call.execute();
+                if (response.isSuccessful()) {
+                    List<Area> areas1 = response.body();
+
+                    for (int i = 0; i < elements.size(); i++) {
+                        for (Area area : areas1) {
+                            if (elements.get(i).getAreaID() == area.getId()){
+                                areasObjects.add(area);
+                                System.out.println("ID Area " + area.getId());
+                            }
+                        }
+                    }
+                }else {
+                    Log.e("FragmentObjects Area", "onFailure: " + response.message());
+                }
+
+            } catch (Exception e) {
+                Log.e("FragmentObjects Area", "onFailure: " + e);
+            }
+            return null;
+        }
+    }
+
+    public class LoadSections extends AsyncTask<ArrayList<Element>, Void, Void>{
+
+        @Override
+        protected Void doInBackground(ArrayList<Element>... arrayLists) {
+            //Get the parameters value
+            ArrayList<Element> elements = arrayLists[0];
+            sectionObjects = new ArrayList<Section>();
+
+            Call<List<Section>> call = mAPIService.getAllSections(MainActivity.tokenAuth);
+
+            try {
+                Response<List<Section>> response = call.execute();
+                if (response.isSuccessful()) {
+                    List<Section> sections1 = response.body();
+
+                    for (int i = 0; i < elements.size(); i++) {
+                        for (Section section : sections1) {
+                            if (elements.get(i).getSectionID() == section.getId()){
+                                sectionObjects.add(section);
+                                System.out.println("ID Seccion " + section.getId());
+                            }
+                        }
+                    }
+                }else {
+                    Log.e("FragmentObjects Area", "onFailure: " + response.message());
+                }
+
+            } catch (Exception e) {
+                Log.e("FragmentObjects Area", "onFailure: " + e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            loadList();
+        }
+    }
+
+    public class LoadElementsArea extends AsyncTask<Integer,Void,ArrayList<Area>> {
+
+        ArrayList<Area> areas = new ArrayList<>();
+
+        @Override
+        protected ArrayList<Area> doInBackground(Integer... integers) {
+            areasObjects = new ArrayList<Area>();
+
+            Call<Area> call = mAPIService.getElementArea(MainActivity.tokenAuth, integers[0]);
+
+            try {
+                Response<Area> response = call.execute();
                 if (response.isSuccessful()) {
                     area1 = new Area();
                     area1.setId(response.body().getId());
-                    area1.setName(response.body().getName());
+                    area1.setName(response.body().getName());;
 
-                    areasObjects.add(area1);
-                } else {
+                    System.out.println("ID Area " + area1.getId());
+
+                    areas.add(area1);
+                    return areas;
+                }else {
                     Log.e("FragmentObjects Area", "onFailure: " + response.message());
+                    return null;
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Area> call, Throwable t) {
-                Log.e("FragmentObjects Area", "onFailure: " + t.getMessage());
+            } catch (Exception e) {
+                Log.e("FragmentObjects Area", "onFailure: " + e);
+                return null;
             }
-        });
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Area> areas) {
+            super.onPostExecute(areas);
+            if (areas != null){
+                areasObjects = areas;
+            }
+        }
     }
 
-    private void getElementSection(int idSection) {
-        sectionObjects = new ArrayList<Section>();
+    public class LoadElementsSection extends AsyncTask<Integer,Void,ArrayList<Section>>{
 
-        Call<Section> call = mAPIService.getElementSection(MainActivity.tokenAuth, idSection);
+        ArrayList<Area> areas = new ArrayList<>();
+        ArrayList<Section> sections = new ArrayList<>();
 
-        call.enqueue(new Callback<Section>() {
-            @Override
-            public void onResponse(Call<Section> call, Response<Section> response) {
+        @Override
+        protected ArrayList<Section> doInBackground(Integer... integers) {
+            sectionObjects = new ArrayList<Section>();
+
+            Call<Section> call = mAPIService.getElementSection(MainActivity.tokenAuth, integers[0]);
+
+            try {
+                Response<Section> response = call.execute();
                 if (response.isSuccessful()) {
 
                     section1 = new Section();
                     section1.setId(response.body().getId());
                     section1.setName(response.body().getName());
 
-                    sectionObjects.add(section1);
+                    System.out.println("ID Seccion " + section1.getId());
 
-                    loadList();
+                    sections.add(section1);
+                    return sections;
                 } else {
                     Log.e("FragmentObjects Section", "onFailure: " + response.message());
+                    return null;
                 }
+            }catch (Exception e){
+                Log.e("FragmentObjects Section", "onFailure: " + e);
+                return null;
             }
+        }
 
-            @Override
-            public void onFailure(Call<Section> call, Throwable t) {
-                Log.e("FragmentObjects Section", "onFailure: " + t.getMessage());
+        @Override
+        protected void onPostExecute(ArrayList<Section> sections) {
+            super.onPostExecute(sections);
+            if (sections != null){
+                sectionObjects = sections;
+                loadList();
             }
-        });
+        }
     }
-
-
 }

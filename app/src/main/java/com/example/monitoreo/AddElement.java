@@ -1,5 +1,6 @@
 package com.example.monitoreo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.monitoreo.data.model.Area;
@@ -128,6 +130,44 @@ public class AddElement extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        System.out.println("yeah");
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == Activity.RESULT_OK){
+                getAreas();
+                String inserted = data.getStringExtra("inserted");
+                if(inserted.equals("section")){
+                    System.out.println("yeah");
+                    /*int id = data.getIntExtra("idNewSection",0);
+
+                    for (int i = 0; i < sectionObjects.size(); i++) {
+                        if (sectionObjects.get(i).getId().equals(id)) {
+                            SectionSpinner.setSelection(i + 1);
+                            loadInfo = false;
+                        }
+                    }*/
+
+                }else if(inserted.equals("area")){
+                    int id = data.getIntExtra("idNewArea",0);
+                }
+            }
+        }
     }
 
     public void loadData() {
@@ -428,4 +468,6 @@ public class AddElement extends AppCompatActivity {
             }
         });
     }
+
+
 }

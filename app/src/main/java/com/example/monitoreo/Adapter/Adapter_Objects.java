@@ -73,7 +73,6 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
 
     @Override
     public int getItemCount() {
-        System.out.println("Size: " + listElement.size());
         return listElement.size();
     }
 
@@ -108,7 +107,6 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
             DeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
 
                     int i = getAdapterPosition();
                     APIService mAPIService = APIUtils.getAPIService();

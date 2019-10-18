@@ -83,14 +83,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     //Get token
-                    String id = response.body().getId();
+                    tokenAuth = response.body().getId();
                     //Get user id
                     userID = response.body().getUserId();
                     isAdmin = response.body().getAdmin();
                     System.out.println("Id user: " + userID);
-                    System.out.println("Token: " + id);
+                    System.out.println("Token: " + tokenAuth);
                     //Call method to save the tokeen
-                    saveToken(id);
+                    saveToken(tokenAuth, userID, isAdmin);
                     start();
                 } else {
                     Log.e("Login", "onFailure: " + response.message());
@@ -108,13 +108,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void saveToken(String token) {
+    public void saveToken(String token, int idUser, boolean isAdmin) {
         if (!token.isEmpty()) {
-            tokenAuth = token;
             //Save the token in a xml with the name of token
             SharedPreferences preferences = getSharedPreferences("token", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("token", token);
+            editor.putInt("idUser", idUser);
+            editor.putBoolean("isAdmin", isAdmin);
             editor.commit();
         }
     }
@@ -124,10 +125,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         //Get the value of the token if there is no token the default value will be empty string
         String token = preferences.getString("token", "");
+        int idUser = preferences.getInt("idUser", 0);
+        boolean admin = preferences.getBoolean("isAdmin", false);
 
         //If the string isn't empty then it'll login
-        if (!token.isEmpty()) {
+        if (!token.isEmpty() && idUser != 0 && admin) {
             tokenAuth = token;
+            userID = idUser;
+            isAdmin = admin;
             start();
         }
     }

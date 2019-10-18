@@ -1,5 +1,7 @@
 package com.example.monitoreo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -134,13 +136,14 @@ public class AddSection extends AppCompatActivity {
     }
 
     public void saveSection(View view) {
-        if (!NewSection.getText().toString().isEmpty()) {
+        if (NewSection.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Ingrese Nombre Sección", Toast.LENGTH_SHORT).show();
             return;
         } else if (idSelectedArea == 0) {
             Toast.makeText(getApplicationContext(), "Seleccione Una Area", Toast.LENGTH_SHORT).show();
             return;
         }
+        
         Section section = new Section(NewSection.getText().toString(), true, idSelectedArea);
 
         Call<Section> call = mAPIService.createSection(MainActivity.tokenAuth, section);
@@ -150,6 +153,12 @@ public class AddSection extends AppCompatActivity {
             public void onResponse(Call<Section> call, Response<Section> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Inserccion Seccion Exitoso", Toast.LENGTH_LONG).show();
+
+                    //Return the ID of the section created.
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("inserted","section");
+                    returnIntent.putExtra("idNewSection",response.body().getId());
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 } else if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Inserccion Seccion Fallido", Toast.LENGTH_LONG).show();

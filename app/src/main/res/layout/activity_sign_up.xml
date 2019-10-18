@@ -142,22 +142,29 @@
                 android:layout_marginLeft="20dp">
 
                 <RadioButton
+                    android:id="@+id/radioButtonAdmin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorFinalGradient"
-                    android:text="Admin" />
+                    android:textColor="@color/colorPrimary"
+                    android:text="Admin"
+                    android:textSize="18sp"/>
 
                 <RadioButton
+                    android:id="@+id/radioButtonNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Normal" />
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Normal"
+                    android:textSize="18sp"/>
             </RadioGroup>
 
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/ic_gradient_color"
                 android:layout_gravity="center"
                 android:text="SIGN UP"
