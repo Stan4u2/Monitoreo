@@ -11,109 +11,97 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/UserLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_list_item_background1"
             android:orientation="vertical">
 
-            <ImageButton
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Usuarios"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
+                <Button
+                    android:id="@+id/UserButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/UserImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="30dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/usarios" />
+
+                    <TextView
+                        android:id="@+id/UserTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Usuarios"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/ReadingsLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_list_item_background1"
             android:orientation="vertical">
 
-            <ImageButton
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lecturas"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/ReadingsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/ReadingsImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/lecturas"
+                        android:layout_margin="30dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ic_list_item_background1"
-            android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ReadingsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Lecturas"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
 
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elementos"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/ic_list_item_background1"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Áreas"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -125,52 +113,199 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/ElementsLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_list_item_background1"
             android:orientation="vertical">
 
-            <ImageButton
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Secciones"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
+                <Button
+                    android:id="@+id/ElementsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ElementsImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/elementos"
+                        android:layout_margin="30dp"/>
+
+                    <TextView
+                        android:id="@+id/ElementsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Elementos"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/AreasLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_list_item_background1"
             android:orientation="vertical">
 
-            <ImageButton
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/colorPrimary"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Historial"
-                android:layout_gravity="center"
-                android:textSize="30dp" />
+                <Button
+                    android:id="@+id/AreasButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/AreasImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/areas"
+                        android:layout_margin="30dp"/>
+
+                    <TextView
+                        android:id="@+id/AreasTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Areas"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/SectionsLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_list_item_background1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/SectionsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/SectionsImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/secciones"
+                        android:layout_margin="30dp"/>
+
+                    <TextView
+                        android:id="@+id/SectionsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Secciones"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/HistoryLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_list_item_background1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/HistoryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/HistoryImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/usarios"
+                        android:layout_margin="30dp"/>
+
+                    <TextView
+                        android:id="@+id/HistoryTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Historial"
+                        android:textColor="@color/colorWhite"
+                        android:background="@drawable/ic_list_item_background2_green"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -33,6 +33,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     Bundle objectSent;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -152,6 +153,16 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 Log.e("Logout", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void MainMenuButtons(String nav){
+        if (nav.equals("elements")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
+            navigationView.setCheckedItem(R.id.nav_elements);
+        } else if (nav.equals("areas")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
+            navigationView.setCheckedItem(R.id.nav_areas);
+        }
     }
 
     @Override
