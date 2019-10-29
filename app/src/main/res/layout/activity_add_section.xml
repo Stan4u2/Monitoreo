@@ -63,6 +63,26 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary" />
 
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/SectionActiveRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activo" />
+
+                <RadioButton
+                    android:id="@+id/SectionInactiveRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inactivo" />
+
+            </RadioGroup>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +99,7 @@
 
                 <ImageButton
                     android:id="@+id/SaveSection"
-                    android:onClick="saveSection"
+                    android:onClick="checkInputs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_save" />

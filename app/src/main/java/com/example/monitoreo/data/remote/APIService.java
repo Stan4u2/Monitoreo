@@ -42,6 +42,15 @@ public interface APIService {
     @GET("usuarios/{id}")
     Call<User> check(@Header("Authorization") String access_token, @Path("id") long id);
 
+    @GET("areas/{id}/elementos/count")
+    Call<Area> countElementsInArea(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @GET("areas/{id}/secciones/count")
+    Call<Area> countSectionsInArea(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @GET("secciones/{id}/elementos/count")
+    Call<Section> countElementsInSection(@Header("Authorization") String access_token, @Path("id") long id);
+
     @POST("secciones")
     Call<Section> createSection(@Header("Authorization") String access_token, @Body Section section);
 
@@ -72,7 +81,28 @@ public interface APIService {
                                 @Field("areaId") long areaID,
                                 @Field("seccionId") long sectionID);
 
+    @FormUrlEncoded
+    @PUT("areas/{id}")
+    Call<Area> updateArea(@Header("Authorization") String access_token,
+                          @Path("id") long id,
+                          @Field("nombre") String name,
+                          @Field("activa") Boolean state);
+
+    @FormUrlEncoded
+    @PUT("secciones/{id}")
+    Call<Section> updateSection(@Header("Authorization") String access_token,
+                                @Path("id") long id,
+                                @Field("nombre") String name,
+                                @Field("activa") Boolean state,
+                                @Field("areaId") long areaID);
+
     @DELETE("elementos/{id}")
     Call<ResponseBody> deleteElement(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @DELETE("areas/{id}")
+    Call<ResponseBody> deleteArea(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @DELETE("secciones/{id}")
+    Call<ResponseBody> deleteSection(@Header("Authorization") String access_token, @Path("id") long id);
 
 }

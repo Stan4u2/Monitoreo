@@ -97,7 +97,6 @@ public class AddElement extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     StateElement = true;
-                    InactiveRB.setChecked(false);
                 }
             }
         });
@@ -107,7 +106,6 @@ public class AddElement extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     StateElement = false;
-                    ActiveRB.setChecked(false);
                 }
             }
         });
@@ -115,8 +113,10 @@ public class AddElement extends AppCompatActivity {
         AddNewArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = null;
-                intent = new Intent(getApplicationContext(), AddArea.class);
+                Intent intent = new Intent(getApplicationContext(), AddArea.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("action", "insert");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -148,11 +148,11 @@ public class AddElement extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         System.out.println("yeah");
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
                 getAreas();
                 String inserted = data.getStringExtra("inserted");
-                if(inserted.equals("section")){
+                if (inserted.equals("section")) {
                     System.out.println("yeah");
                     /*int id = data.getIntExtra("idNewSection",0);
 
@@ -163,15 +163,15 @@ public class AddElement extends AppCompatActivity {
                         }
                     }*/
 
-                }else if(inserted.equals("area")){
-                    int id = data.getIntExtra("idNewArea",0);
+                } else if (inserted.equals("area")) {
+                    int id = data.getIntExtra("idNewArea", 0);
                 }
             }
         }
     }
 
     public void loadData() {
-        if(loadInfo) {
+        if (loadInfo) {
             Area area = null;
             Section section = null;
             Element element = null;
@@ -398,8 +398,7 @@ public class AddElement extends AppCompatActivity {
                         Label.getText().toString(),
                         Descriptor.getText().toString(),
                         StateElement,
-                        Observations.getText().toString()
-                );
+                        Observations.getText().toString());
             } else if (action.equals("modify")) {
                 modifyElement(
                         idElementModify,
@@ -459,6 +458,7 @@ public class AddElement extends AppCompatActivity {
                     finish();
                 } else if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Modificación Elemento Fallido", Toast.LENGTH_LONG).show();
+                    Log.e("ModifyElement", "onFailure: " + response.message());
                 }
             }
 

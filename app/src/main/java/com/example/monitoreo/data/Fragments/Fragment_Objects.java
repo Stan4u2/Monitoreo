@@ -34,14 +34,14 @@ import retrofit2.Response;
 
 public class Fragment_Objects extends Fragment {
 
+    private static ArrayList<Area> areasObjects;
+    private static ArrayList<Section> sectionObjects;
+    private static ArrayList<Element> elements;
     RecyclerView ElementsRecyclerView;
     ImageButton AddObject;
     Element element1 = null;
     Area area1 = null;
     Section section1 = null;
-    private static ArrayList<Area> areasObjects;
-    private static ArrayList<Section> sectionObjects;
-    private static ArrayList<Element> elements;
     private APIService mAPIService;
 
     @Nullable
@@ -84,10 +84,6 @@ public class Fragment_Objects extends Fragment {
     }
 
     private void loadList() {
-        System.out.println("ya");
-        System.out.println("1-Size of elements " + elements.size());
-        System.out.println("1-Size of areas " + areasObjects.size());
-        System.out.println("1-Size of sections " + sectionObjects.size());
         if (!elements.isEmpty() && !areasObjects.isEmpty() && !sectionObjects.isEmpty()
                 &&
                 elements.size() == areasObjects.size() && areasObjects.size() == sectionObjects.size() && sectionObjects.size() == elements.size()) {
@@ -134,10 +130,9 @@ public class Fragment_Objects extends Fragment {
 
                     for (Element element : elements1) {
                         elements.add(element);
-                        System.out.println("Elemento ID Area " + element.getAreaID() + " ID Seccion " + element.getSectionID());
                     }
                     return true;
-                }else {
+                } else {
                     Log.e("FragmentObjects Elements", "onFailure: " + response.message());
                     return false;
                 }
@@ -152,20 +147,17 @@ public class Fragment_Objects extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
 
-            if(aBoolean){
+            if (aBoolean) {
                 new LoadAreas().execute(elements);
                 new LoadSections().execute(elements);
-                /*for (int i = 0; i < elements.size(); i++){
-                    new LoadElementsArea().execute(elements.get(i).getAreaID());
-                    new LoadElementsSection().execute(elements.get(i).getSectionID());
-                }*/
             }
 
         }
     }
 
-    public class LoadAreas extends AsyncTask<ArrayList<Element>, Void, Void>{
+    public class LoadAreas extends AsyncTask<ArrayList<Element>, Void, Void> {
         ArrayList<Element> elements = new ArrayList<>();
+
         @Override
         protected Void doInBackground(ArrayList<Element>... arrayLists) {
             //Get the parameters value
@@ -181,13 +173,12 @@ public class Fragment_Objects extends Fragment {
 
                     for (int i = 0; i < elements.size(); i++) {
                         for (Area area : areas1) {
-                            if (elements.get(i).getAreaID() == area.getId()){
+                            if (elements.get(i).getAreaID() == area.getId()) {
                                 areasObjects.add(area);
-                                System.out.println("ID Area " + area.getId());
                             }
                         }
                     }
-                }else {
+                } else {
                     Log.e("FragmentObjects Area", "onFailure: " + response.message());
                 }
 
@@ -198,7 +189,7 @@ public class Fragment_Objects extends Fragment {
         }
     }
 
-    public class LoadSections extends AsyncTask<ArrayList<Element>, Void, Void>{
+    public class LoadSections extends AsyncTask<ArrayList<Element>, Void, Void> {
 
         @Override
         protected Void doInBackground(ArrayList<Element>... arrayLists) {
@@ -215,13 +206,13 @@ public class Fragment_Objects extends Fragment {
 
                     for (int i = 0; i < elements.size(); i++) {
                         for (Section section : sections1) {
-                            if (elements.get(i).getSectionID() == section.getId()){
+                            if (elements.get(i).getSectionID() == section.getId()) {
                                 sectionObjects.add(section);
                                 System.out.println("ID Seccion " + section.getId());
                             }
                         }
                     }
-                }else {
+                } else {
                     Log.e("FragmentObjects Area", "onFailure: " + response.message());
                 }
 

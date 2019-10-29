@@ -1,5 +1,7 @@
 package com.example.monitoreo.Adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -107,34 +109,8 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
             DeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     int i = getAdapterPosition();
-                    APIService mAPIService = APIUtils.getAPIService();
-                    Call<ResponseBody> call = mAPIService.deleteElement(MainActivity.tokenAuth, listElement.get(i).getId());
-
-                    call.enqueue(new Callback<ResponseBody>() {
-
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(itemView.getContext(), "Elemento Eliminado", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(itemView.getContext(), MainMenu.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("window", "objects");
-                                intent.putExtras(bundle);
-                                itemView.getContext().startActivity(intent);
-
-                            } else if (!response.isSuccessful()) {
-                                Toast.makeText(itemView.getContext(), "Error al eliminar elemento", Toast.LENGTH_LONG).show();
-                                Log.e("Delete Element", "onFailure: " + response.message());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Log.e("Delete Element", "onFailure: " + t.getMessage());
-                        }
-                    });
+                    deleteAreaAlert(i);
 
                 }
             });
@@ -157,6 +133,49 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
 
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
+                }
+            });
+        }
+
+        public void deleteAreaAlert(final int pos) {
+            new AlertDialog.Builder(itemView.getContext())
+                    .setTitle("Eliminar Elemento")
+                    .setMessage("Esta seguro de eliminar este elemento?")
+                    .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteElement(pos);
+                        }
+                    })
+                    .setNegativeButton("NO", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+        public void deleteElement(int i) {
+            APIService mAPIService = APIUtils.getAPIService();
+            Call<ResponseBody> call = mAPIService.deleteElement(MainActivity.tokenAuth, listElement.get(i).getId());
+
+            call.enqueue(new Callback<ResponseBody>() {
+
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(itemView.getContext(), "Elemento Eliminado", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(itemView.getContext(), MainMenu.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("window", "objects");
+                        intent.putExtras(bundle);
+                        itemView.getContext().startActivity(intent);
+
+                    } else if (!response.isSuccessful()) {
+                        Toast.makeText(itemView.getContext(), "Error al eliminar elemento", Toast.LENGTH_LONG).show();
+                        Log.e("Delete Element", "onFailure: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("Delete Element", "onFailure: " + t.getMessage());
                 }
             });
         }

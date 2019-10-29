@@ -189,5 +189,12 @@ public class Fragment_Home extends Fragment {
                 ((MainMenu)getActivity()).MainMenuButtons("areas");
             }
         });
+
+        SectionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainMenu)getActivity()).MainMenuButtons("sections");
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.monitoreo.data.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +54,11 @@ public class Fragment_Areas extends Fragment {
         AddArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), com.example.monitoreo.AddArea.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("action", "insert");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

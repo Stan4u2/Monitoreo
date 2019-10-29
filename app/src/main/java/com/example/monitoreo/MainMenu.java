@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.monitoreo.data.Fragments.Fragment_Areas;
 import com.example.monitoreo.data.Fragments.Fragment_Home;
 import com.example.monitoreo.data.Fragments.Fragment_Objects;
+import com.example.monitoreo.data.Fragments.Fragment_Sections;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -70,13 +71,16 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
             switch (window) {
                 case "objects":
-                    System.out.println("sent object");
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
                     navigationView.setCheckedItem(R.id.nav_elements);
                     break;
                 case "areas":
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
+                    navigationView.setCheckedItem(R.id.nav_areas);
                     break;
                 case "sections":
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
+                    navigationView.setCheckedItem(R.id.nav_sections);
                     break;
             }
         } else {
@@ -108,6 +112,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.nav_areas:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
+                break;
+            case R.id.nav_sections:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
                 break;
             case R.id.nav_new_user:
                 if (MainActivity.isAdmin) {
@@ -162,6 +169,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         } else if (nav.equals("areas")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
             navigationView.setCheckedItem(R.id.nav_areas);
+        } else if (nav.equals("sections")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
+            navigationView.setCheckedItem(R.id.nav_sections);
         }
     }
 

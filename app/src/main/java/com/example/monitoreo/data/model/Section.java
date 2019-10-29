@@ -10,7 +10,7 @@ public class Section implements Serializable {
     private Integer id;
 
     @SerializedName("activa")
-    private Boolean activa;
+    private Boolean state;
 
     @SerializedName("nombre")
     private String name;
@@ -18,13 +18,16 @@ public class Section implements Serializable {
     @SerializedName("areaId")
     private Integer areaId;
 
+    @SerializedName("count")
+    private int count;
+
     public Section(){
 
     }
 
-    public Section(String name, Boolean activa, Integer areaId) {
+    public Section(String name, Boolean state, Integer areaId) {
         this.name = name;
-        this.activa = activa;
+        this.state = state;
         this.areaId = areaId;
     }
 
@@ -36,12 +39,12 @@ public class Section implements Serializable {
         this.id = id;
     }
 
-    public Boolean getActiva() {
-        return activa;
+    public Boolean getState() {
+        return state;
     }
 
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public String getName() {
@@ -58,5 +61,13 @@ public class Section implements Serializable {
 
     public void setAreaId(Integer areaId) {
         this.areaId = areaId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -16,11 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.monitoreo.AddArea;
+import com.example.monitoreo.AddSection;
 import com.example.monitoreo.MainActivity;
 import com.example.monitoreo.MainMenu;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.Area;
+import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
 
@@ -31,42 +32,45 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolderAreas> implements View.OnClickListener {
+public class Adapter_Sections extends RecyclerView.Adapter<Adapter_Sections.ViewHolderSections> implements View.OnClickListener {
 
+    ArrayList<Section> listSection;
     ArrayList<Area> listArea;
 
     private View.OnClickListener listener;
 
-    public Adapter_Areas(ArrayList<Area> listArea) {
+    public Adapter_Sections(ArrayList<Section> listSection, ArrayList<Area> listArea) {
+        this.listSection = listSection;
         this.listArea = listArea;
     }
 
     @NonNull
     @Override
-    public Adapter_Areas.ViewHolderAreas onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_areas, null, false);
+    public Adapter_Sections.ViewHolderSections onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_sections, null, false);
 
         view.setOnClickListener(this);
 
-        return new ViewHolderAreas(view);
+        return new ViewHolderSections(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter_Areas.ViewHolderAreas holder, int position) {
+    public void onBindViewHolder(@NonNull Adapter_Sections.ViewHolderSections holder, int position) {
+        holder.item_list_section.setText(listSection.get(position).getName());
         holder.item_list_area.setText(listArea.get(position).getName());
 
-        if (listArea.get(position).getState()) {
+        if (listSection.get(position).getState()) {
             //Set background if its active
-            holder.AreaState.setBackgroundResource(R.drawable.ic_ative);
+            holder.SectionState.setBackgroundResource(R.drawable.ic_ative);
         } else {
             //Set background if its inactive
-            holder.AreaState.setBackgroundResource(R.drawable.ic_inactive);
+            holder.SectionState.setBackgroundResource(R.drawable.ic_inactive);
         }
     }
 
     @Override
     public int getItemCount() {
-        return listArea.size();
+        return listSection.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
@@ -80,17 +84,18 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
         }
     }
 
-    public class ViewHolderAreas extends RecyclerView.ViewHolder {
-        TextView item_list_area;
-        ImageView AreaState;
+    public class ViewHolderSections extends RecyclerView.ViewHolder {
+        TextView item_list_section, item_list_area;
+        ImageView SectionState;
         ImageButton EditButton, DeleteButton;
 
-        public ViewHolderAreas(@NonNull final View itemView) {
+        public ViewHolderSections(@NonNull final View itemView) {
             super(itemView);
-            //Text View
+            //TextView
+            item_list_section = itemView.findViewById(R.id.item_list_section);
             item_list_area = itemView.findViewById(R.id.item_list_area);
             //ImageView
-            AreaState = itemView.findViewById(R.id.AreaState);
+            SectionState = itemView.findViewById(R.id.SectionState);
             //ImageButton
             EditButton = itemView.findViewById(R.id.EditButton);
             DeleteButton = itemView.findViewById(R.id.DeleteButton);
@@ -98,11 +103,13 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
             EditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int i = getAdapterPosition();
+                    final int i = getAdapterPosition();
+                    Section section = listSection.get(i);
                     Area area = listArea.get(i);
 
-                    Intent intent = new Intent(v.getContext(), AddArea.class);
+                    Intent intent = new Intent(v.getContext(), AddSection.class);
                     Bundle bundle = new Bundle();
+                    bundle.putSerializable("section", section);
                     bundle.putSerializable("area", area);
                     bundle.putSerializable("action", "modify");
                     intent.putExtras(bundle);
@@ -115,90 +122,64 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
                 public void onClick(View v) {
                     final int i = getAdapterPosition();
                     APIService mAPIService = APIUtils.getAPIService();
-                    Call<Area> call = mAPIService.countElementsInArea(MainActivity.tokenAuth, listArea.get(i).getId());
+                    Call<Section> call = mAPIService.countElementsInSection(MainActivity.tokenAuth, listSection.get(i).getId());
 
-                    call.enqueue(new Callback<Area>() {
+                    call.enqueue(new Callback<Section>() {
                         @Override
-                        public void onResponse(Call<Area> call, Response<Area> response) {
+                        public void onResponse(Call<Section> call, Response<Section> response) {
                             if (response.isSuccessful()) {
-                                if (response.body().getCount() > 0) {
+                                if (response.body().getCount() > 0){
                                     showAlert();
                                 } else {
-                                    checkIfSectionsExistsArea(i);
+                                    deleteSectionAlert(i);
                                 }
                             } else {
-                                Toast.makeText(itemView.getContext(), "Error al eliminar la area", Toast.LENGTH_LONG).show();
-                                Log.e("Count Elements in Area", "onFailure: " + response.message());
+                                Toast.makeText(itemView.getContext(), "Error al eliminar la sección", Toast.LENGTH_LONG).show();
+                                Log.e("Count Elements in Section", "onFailure: " + response.message());
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<Area> call, Throwable t) {
-                            Log.e("Count Elements in Area", "onFailure: " + t.getMessage());
+                        public void onFailure(Call<Section> call, Throwable t) {
+                            Log.e("Count Elements in Section", "onFailure: " + t.getMessage());
                         }
                     });
                 }
             });
         }
 
-        public void checkIfSectionsExistsArea (final int i){
+        public void deleteSection(int i) {
             APIService mAPIService = APIUtils.getAPIService();
-            Call<Area> call = mAPIService.countSectionsInArea(MainActivity.tokenAuth, listArea.get(i).getId());
-
-            call.enqueue(new Callback<Area>() {
-                @Override
-                public void onResponse(Call<Area> call, Response<Area> response) {
-                    if (response.isSuccessful()) {
-                        if (response.body().getCount() > 0) {
-                            showAlert();
-                        } else {
-                            deleteAreaAlert(i);
-                        }
-                    } else {
-                        Toast.makeText(itemView.getContext(), "Error al eliminar la area", Toast.LENGTH_LONG).show();
-                        Log.e("Count Sections in Area", "onFailure: " + response.message());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Area> call, Throwable t) {
-                    Log.e("Count Sections in Area", "onFailure: " + t.getMessage());
-                }
-            });
-        }
-
-        public void deleteArea(int i) {
-            APIService mAPIService = APIUtils.getAPIService();
-            Call<ResponseBody> call = mAPIService.deleteArea(MainActivity.tokenAuth, listArea.get(i).getId());
+            Call<ResponseBody> call = mAPIService.deleteSection(MainActivity.tokenAuth, listSection.get(i).getId());
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(itemView.getContext(), "Area Eliminada", Toast.LENGTH_LONG).show();
+                    if (response.isSuccessful()){
+                        Toast.makeText(itemView.getContext(), "Secciòn Eliminada", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(itemView.getContext(), MainMenu.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("window", "areas");
+                        bundle.putSerializable("window", "sections");
                         intent.putExtras(bundle);
                         itemView.getContext().startActivity(intent);
                     } else {
-                        Toast.makeText(itemView.getContext(), "Error al eliminar la area", Toast.LENGTH_LONG).show();
-                        Log.e("Delete Area", "onFailure: " + response.message());
+                        Toast.makeText(itemView.getContext(), "Error al eliminar la secciòn", Toast.LENGTH_LONG).show();
+                        Log.e("Delete Section", "onFailure: " + response.message());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(itemView.getContext(), "Error al eliminar la area", Toast.LENGTH_LONG).show();
-                    Log.e("Delete Area", "onFailure: " + t.getMessage());
+                    Toast.makeText(itemView.getContext(), "Error al eliminar la secciòn", Toast.LENGTH_LONG).show();
+                    Log.e("Delete Section", "onFailure: " + t.getMessage());
                 }
             });
         }
 
         public void showAlert() {
             AlertDialog alertDialog = new AlertDialog.Builder(itemView.getContext()).create();
-            alertDialog.setTitle("Area En Uso");
-            alertDialog.setMessage("Area esta siendo usada, elimine todas relaciones.");
+            alertDialog.setTitle("Sección En Uso");
+            alertDialog.setMessage("Sección esta siendo usada, elimine todas relaciones.");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -209,18 +190,19 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
             alertDialog.show();
         }
 
-        public void deleteAreaAlert(final int pos) {
+        public void deleteSectionAlert(final int pos) {
             new AlertDialog.Builder(itemView.getContext())
-                    .setTitle("Eliminar Area")
-                    .setMessage("Esta seguro de eliminar esta area?")
+                    .setTitle("Eliminar Sección")
+                    .setMessage("Esta seguro de eliminar esta sección?")
                     .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            deleteArea(pos);
+                            deleteSection(pos);
                         }
                     })
                     .setNegativeButton("NO", null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
+
     }
 }

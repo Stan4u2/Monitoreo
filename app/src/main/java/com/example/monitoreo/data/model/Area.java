@@ -15,6 +15,9 @@ public class Area implements Serializable {
     @SerializedName("activa")
     private Boolean state;
 
+    @SerializedName("count")
+    private int count;
+
     public Area (){
 
     }
@@ -46,5 +49,13 @@ public class Area implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
