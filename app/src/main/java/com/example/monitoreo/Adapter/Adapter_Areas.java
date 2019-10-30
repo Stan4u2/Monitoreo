@@ -205,7 +205,7 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
                             dialog.dismiss();
                         }
                     });
-            alertDialog.setIcon(android.R.drawable.ic_dialog_info);
+            alertDialog.setIcon(R.drawable.ic_warning_black_24dp);
             alertDialog.show();
         }
 
@@ -219,7 +219,7 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
                         }
                     })
                     .setNegativeButton("NO", null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.ic_error_black_24dp)
                     .show();
         }
     }

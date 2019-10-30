@@ -1,5 +1,6 @@
 package com.example.monitoreo.data.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,6 +75,13 @@ public class Fragment_Areas extends Fragment {
     private void getAreas() {
         areas = new ArrayList<Area>();
 
+        final ProgressDialog progDailog = new ProgressDialog(getContext());
+        progDailog.setMessage("Cargando...");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(true);
+        progDailog.show();
+
         Call<List<Area>> call = mAPIService.getAllAreas(MainActivity.tokenAuth);
 
         call.enqueue(new Callback<List<Area>>() {
@@ -99,6 +107,7 @@ public class Fragment_Areas extends Fragment {
                     Log.e("FragmentAreas Areas", "onFailure: " + response.message());
                     return;
                 }
+                progDailog.dismiss();
             }
 
             @Override
@@ -109,7 +118,7 @@ public class Fragment_Areas extends Fragment {
     }
 
     private void loadList() {
-        if (!areas.isEmpty()){
+        if (!areas.isEmpty()) {
             Adapter_Areas adapter_areas = new Adapter_Areas(areas);
 
             adapter_areas.setOnClickListener(new View.OnClickListener() {

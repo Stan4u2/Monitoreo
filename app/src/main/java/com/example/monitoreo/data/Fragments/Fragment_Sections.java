@@ -1,5 +1,6 @@
 package com.example.monitoreo.data.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -84,6 +85,17 @@ public class Fragment_Sections extends Fragment {
     }
 
     public class LoadSections extends AsyncTask<Void, Void, Boolean> {
+        ProgressDialog progDailog = new ProgressDialog(getContext());
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progDailog.setMessage("Cargando...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -117,6 +129,7 @@ public class Fragment_Sections extends Fragment {
             if (aBoolean){
                 new LoadAreas().execute(sections);
             }
+            progDailog.dismiss();
         }
     }
 

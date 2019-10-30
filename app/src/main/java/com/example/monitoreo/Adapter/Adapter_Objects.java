@@ -147,7 +147,7 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
                         }
                     })
                     .setNegativeButton("NO", null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.ic_error_black_24dp)
                     .show();
         }
 

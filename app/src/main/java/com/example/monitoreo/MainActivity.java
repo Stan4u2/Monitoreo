@@ -3,6 +3,8 @@ package com.example.monitoreo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,13 +24,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText userEditText, passwordEditText;
-    Button loginButton, signUpLettersButton;
-    private APIService mAPIService;
-
     public static String tokenAuth;
     public static Integer userID;
     public static Boolean isAdmin;
+    public static Boolean connectedInternet;
+    EditText userEditText, passwordEditText;
+    Button loginButton, signUpLettersButton;
+    private APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +46,30 @@ public class MainActivity extends AppCompatActivity {
 
         mAPIService = APIUtils.getAPIService();
 
-        //App will check if there is a token saved if there is it'll login automatically
-        checkToken();
+        connectedInternet = checkInternetConnection();
+        //App will check if yoou have internet connection
+        if (connectedInternet){
+            //App will check if there is a token saved if there is it'll login automatically
+            checkToken();
+        } else {
+            Toast.makeText(getApplicationContext(), "Conectese a internet", Toast.LENGTH_LONG).show();
+        }
 
     }
 
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.signUpLettersButton:
-                Intent intent = new Intent(getApplicationContext(), SignUp.class);
-                startActivity(intent);
-                break;
-            case R.id.loginButton:
-                login();
-                break;
+        if (connectedInternet) {
+            switch (view.getId()) {
+                case R.id.signUpLettersButton:
+                    Intent intent = new Intent(getApplicationContext(), SignUp.class);
+                    startActivity(intent);
+                    break;
+                case R.id.loginButton:
+                    login();
+                    break;
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Conectese a internet", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -94,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     start();
                 } else {
                     Log.e("Login", "onFailure: " + response.message());
-                    if(response.message().equals("Unauthorized")){
+                    if (response.message().equals("Unauthorized")) {
                         Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrecto", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -141,5 +153,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(intent);
+    }
+
+    public Boolean checkInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -186,7 +186,7 @@ public class Adapter_Sections extends RecyclerView.Adapter<Adapter_Sections.View
                             dialog.dismiss();
                         }
                     });
-            alertDialog.setIcon(android.R.drawable.ic_dialog_info);
+            alertDialog.setIcon(R.drawable.ic_warning_black_24dp);
             alertDialog.show();
         }
 
@@ -200,7 +200,7 @@ public class Adapter_Sections extends RecyclerView.Adapter<Adapter_Sections.View
                         }
                     })
                     .setNegativeButton("NO", null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.ic_error_black_24dp)
                     .show();
         }
 
