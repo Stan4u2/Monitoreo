@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static Boolean isAdmin;
     public static Boolean connectedInternet;
     EditText userEditText, passwordEditText;
-    Button loginButton, signUpLettersButton;
+    Button loginButton;
     private APIService mAPIService;
 
     @Override
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         //Button
         loginButton = findViewById(R.id.loginButton);
-        signUpLettersButton = findViewById(R.id.signUpLettersButton);
 
         mAPIService = APIUtils.getAPIService();
 
@@ -59,15 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
         if (connectedInternet) {
-            switch (view.getId()) {
-                case R.id.signUpLettersButton:
-                    Intent intent = new Intent(getApplicationContext(), SignUp.class);
-                    startActivity(intent);
-                    break;
-                case R.id.loginButton:
-                    login();
-                    break;
-            }
+            login();
         } else {
             Toast.makeText(getApplicationContext(), "Conectese a internet", Toast.LENGTH_LONG).show();
         }
@@ -141,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         boolean admin = preferences.getBoolean("isAdmin", false);
 
         //If the string isn't empty then it'll login
-        if (!token.isEmpty() && idUser != 0 && admin) {
+        if (!token.isEmpty() && idUser != 0) {
             tokenAuth = token;
             userID = idUser;
             isAdmin = admin;

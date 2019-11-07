@@ -26,6 +26,12 @@
                 android:id="@+id/nav_new_user"
                 android:icon="@drawable/ic_person_add_black_24dp"
                 android:title="Agregar Usuario" />
+
+            <item
+                android:id="@+id/nav_change_password"
+                android:icon="@drawable/ic_lock_black_24dp"
+                android:title="Cambiar Contraseña" />
+
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_power_settings_new_black_24dp"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -32,9 +33,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     public static String window;
     boolean process;
     Bundle objectSent;
+    NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
-    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //If user is admin the option to add a new user will appear, if not it won't
+        Menu nav_Menu = navigationView.getMenu();
+        if (MainActivity.isAdmin) {
+            nav_Menu.findItem(R.id.nav_new_user).setVisible(true);
+        } else {
+            nav_Menu.findItem(R.id.nav_new_user).setVisible(false);
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
@@ -117,12 +126,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
                 break;
             case R.id.nav_new_user:
-                if (MainActivity.isAdmin) {
-                    Intent intent = new Intent(getApplicationContext(), SignUp.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
-                }
+                Intent intent1 = new Intent(getApplicationContext(), SignUp.class);
+                startActivity(intent1);
+                break;
+            case R.id.nav_change_password:
+                Intent intent = new Intent(getApplicationContext(), ChangePassword.class);
+                startActivity(intent);
                 break;
             case R.id.nav_logout:
                 logout();
@@ -162,14 +171,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    public void MainMenuButtons(String nav){
+    public void MainMenuButtons(String nav) {
         if (nav.equals("elements")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
             navigationView.setCheckedItem(R.id.nav_elements);
         } else if (nav.equals("areas")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
             navigationView.setCheckedItem(R.id.nav_areas);
-        } else if (nav.equals("sections")){
+        } else if (nav.equals("sections")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
             navigationView.setCheckedItem(R.id.nav_sections);
         }

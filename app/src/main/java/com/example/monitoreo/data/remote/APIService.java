@@ -70,6 +70,10 @@ public interface APIService {
     Call<APIService> logOut(@Header("Authorization") String access_token);
 
     @FormUrlEncoded
+    @POST("usuarios/reset-password")
+    Call<ResponseBody> changePassword (@Header("Authorization") String access_token, @Field("newPassword") String password);
+
+    @FormUrlEncoded
     @PUT("elementos/{id}")
     Call<Element> updateElement(@Header("Authorization") String access_token,
                                 @Path("id") long id,

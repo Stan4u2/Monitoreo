@@ -31,6 +31,15 @@
             android:orientation="vertical"
             android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Área"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/NewArea"
                 android:layout_width="wrap_content"
@@ -68,17 +77,19 @@
 
                 <ImageButton
                     android:id="@+id/CancelArea"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="30dp"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                    android:background="@drawable/ic_button_delete"
+                    android:src="@drawable/ic_close" />
 
                 <ImageButton
                     android:id="@+id/SaveArea"
                     android:onClick="checkAreaInputs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_save" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_button_edit"
+                    android:src="@drawable/ic_save_black_24dp" />
 
             </LinearLayout>
 
