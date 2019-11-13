@@ -39,6 +39,9 @@ public interface APIService {
     @GET("elementos")
     Call<List<Element>> getAllElements(@Header("Authorization") String access_token);
 
+    @GET("usuarios")
+    Call<List<User>> getAllUsers(@Header("Authorization") String access_token);
+
     @GET("usuarios/{id}")
     Call<User> check(@Header("Authorization") String access_token, @Path("id") long id);
 

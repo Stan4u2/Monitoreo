@@ -45,9 +45,7 @@ public class Adapter_Areas extends RecyclerView.Adapter<Adapter_Areas.ViewHolder
     @Override
     public Adapter_Areas.ViewHolderAreas onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_areas, null, false);
-
         view.setOnClickListener(this);
-
         return new ViewHolderAreas(view);
     }
 

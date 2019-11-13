@@ -2,7 +2,9 @@ package com.example.monitoreo.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     @SerializedName("nombre")
     private String name;
@@ -25,9 +27,13 @@ public class User {
     @SerializedName("userId")
     private Integer userId;
 
-    //This is the token
+    //This is the token bitch
     @SerializedName("id")
     private String id;
+
+    public User () {
+
+    }
 
     public User(String name, Boolean isAdmin, String username, String email, String password, Integer ttl) {
         this.name = name;

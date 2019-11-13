@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UserData"></activity>
         <activity
             android:name=".ChangePassword"
-            android:theme="@style/AppTheme.Transparent"/>
+            android:theme="@style/AppTheme.Transparent" />
         <activity android:name=".ElementDetails" />
         <activity android:name=".MainMenu" />
         <activity android:name=".SignUp" />

@@ -10,5 +10,7 @@
     <color name="menuBackGround">#FAFAFA</color>
     <color name="InactiveFinish">#870C24</color>
     <color name="InactiveStart">#FF1744</color>
+    <color name="colorNavigationHeader">#013530</color>
+    <color name="colorOrange">#c4942f</color>
 
 </resources>

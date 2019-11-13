@@ -20,6 +20,7 @@ import com.example.monitoreo.data.Fragments.Fragment_Areas;
 import com.example.monitoreo.data.Fragments.Fragment_Home;
 import com.example.monitoreo.data.Fragments.Fragment_Objects;
 import com.example.monitoreo.data.Fragments.Fragment_Sections;
+import com.example.monitoreo.data.Fragments.Fragment_Users;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -52,8 +53,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //If user is admin the option to add a new user will appear, if not it won't
         Menu nav_Menu = navigationView.getMenu();
         if (MainActivity.isAdmin) {
+            nav_Menu.findItem(R.id.nav_users).setVisible(true);
             nav_Menu.findItem(R.id.nav_new_user).setVisible(true);
         } else {
+            nav_Menu.findItem(R.id.nav_users).setVisible(false);
             nav_Menu.findItem(R.id.nav_new_user).setVisible(false);
         }
 
@@ -77,8 +80,18 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         if (objectSent != null) {
             System.out.println("ObjectSent");
             window = objectSent.getSerializable("window").toString();
-
+            System.out.println("Window to select " + window);
+            MainMenuButtons(window);
+            /*
             switch (window) {
+                case "users":
+                    if (MainActivity.isAdmin) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
+                        navigationView.setCheckedItem(R.id.nav_users);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Permisos Insuficientes", Toast.LENGTH_LONG).show();
+                    }
+                    break;
                 case "objects":
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
                     navigationView.setCheckedItem(R.id.nav_elements);
@@ -91,7 +104,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
                     navigationView.setCheckedItem(R.id.nav_sections);
                     break;
-            }
+            }*/
         } else {
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Home()).commit();
@@ -115,6 +128,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         switch (menuItem.getItemId()) {
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Home()).commit();
+                break;
+            case R.id.nav_users:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
                 break;
             case R.id.nav_elements:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
@@ -172,7 +188,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void MainMenuButtons(String nav) {
-        if (nav.equals("elements")) {
+        if (nav.equals("users")){
+            if (MainActivity.isAdmin) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
+                navigationView.setCheckedItem(R.id.nav_users);
+            } else {
+                Toast.makeText(getApplicationContext(), "Permisos Insuficientes", Toast.LENGTH_LONG).show();
+            }
+        } else if (nav.equals("elements")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
             navigationView.setCheckedItem(R.id.nav_elements);
         } else if (nav.equals("areas")) {

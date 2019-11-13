@@ -97,9 +97,6 @@ public class Fragment_Areas extends Fragment {
                         area1.setId(area.getId());
                         area1.setName(area.getName());
                         area1.setState(area.getState());
-
-                        System.out.println(area.getName());
-
                     }
 
                     loadList();
