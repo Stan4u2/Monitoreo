@@ -98,7 +98,7 @@ public class Fragment_Users extends Fragment {
                         users.add(user);
 
                         user1 = new User();
-                        user1.setUserId(user.getUserId());
+                        user1.setId(user.getId());
                         user1.setAdmin(user.getAdmin());
                         user1.setUsername(user.getUsername());
                         user1.setName(user.getName());

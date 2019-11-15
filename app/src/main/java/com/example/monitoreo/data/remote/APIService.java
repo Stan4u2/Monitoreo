@@ -15,6 +15,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -43,7 +44,7 @@ public interface APIService {
     Call<List<User>> getAllUsers(@Header("Authorization") String access_token);
 
     @GET("usuarios/{id}")
-    Call<User> check(@Header("Authorization") String access_token, @Path("id") long id);
+    Call<User> getUserData(@Header("Authorization") String access_token, @Path("id") long id);
 
     @GET("areas/{id}/elementos/count")
     Call<Area> countElementsInArea(@Header("Authorization") String access_token, @Path("id") long id);
@@ -74,7 +75,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("usuarios/reset-password")
-    Call<ResponseBody> changePassword (@Header("Authorization") String access_token, @Field("newPassword") String password);
+    Call<ResponseBody> changePassword(@Header("Authorization") String access_token, @Field("newPassword") String password);
 
     @FormUrlEncoded
     @PUT("elementos/{id}")
@@ -103,6 +104,25 @@ public interface APIService {
                                 @Field("activa") Boolean state,
                                 @Field("areaId") long areaID);
 
+    @FormUrlEncoded
+    @PUT("usuarios/{id}")
+    Call<User> updateUserWithPassword(@Header("Authorization") String access_token,
+                          @Path("id") long id,
+                          @Field("nombre") String name,
+                          @Field("isAdmin") Boolean isAdmin,
+                          @Field("username") String username,
+                          @Field("email") String email,
+                          @Field("password") String password);
+
+    @FormUrlEncoded
+    @PATCH("usuarios/{id}")
+    Call<User> updateUserNoPassword(@Header("Authorization") String access_token,
+                                      @Path("id") long id,
+                                      @Field("nombre") String name,
+                                      @Field("isAdmin") Boolean isAdmin,
+                                      @Field("username") String username,
+                                      @Field("email") String email);
+
     @DELETE("elementos/{id}")
     Call<ResponseBody> deleteElement(@Header("Authorization") String access_token, @Path("id") long id);
 
@@ -111,5 +131,8 @@ public interface APIService {
 
     @DELETE("secciones/{id}")
     Call<ResponseBody> deleteSection(@Header("Authorization") String access_token, @Path("id") long id);
+
+    @DELETE("usuarios/{id}")
+    Call<ResponseBody> deleteUser(@Header("Authorization") String access_token, @Path("id") long id);
 
 }

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import com.example.monitoreo.data.Fragments.Fragment_Home;
 import com.example.monitoreo.data.Fragments.Fragment_Objects;
 import com.example.monitoreo.data.Fragments.Fragment_Sections;
 import com.example.monitoreo.data.Fragments.Fragment_Users;
+import com.example.monitoreo.data.model.User;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +41,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
 
+    private TextView userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +55,22 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.getHeaderView(0);
+        userName = headerView.findViewById(R.id.userName);
+        TextView userRole = headerView.findViewById(R.id.userRole);
+
         //If user is admin the option to add a new user will appear, if not it won't
         Menu nav_Menu = navigationView.getMenu();
         if (MainActivity.isAdmin) {
             nav_Menu.findItem(R.id.nav_users).setVisible(true);
             nav_Menu.findItem(R.id.nav_new_user).setVisible(true);
+            userRole.setText("ADMINISTRADOR");
         } else {
             nav_Menu.findItem(R.id.nav_users).setVisible(false);
             nav_Menu.findItem(R.id.nav_new_user).setVisible(false);
+            userRole.setText("NORMAL");
         }
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
@@ -82,29 +94,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             window = objectSent.getSerializable("window").toString();
             System.out.println("Window to select " + window);
             MainMenuButtons(window);
-            /*
-            switch (window) {
-                case "users":
-                    if (MainActivity.isAdmin) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
-                        navigationView.setCheckedItem(R.id.nav_users);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Permisos Insuficientes", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case "objects":
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
-                    navigationView.setCheckedItem(R.id.nav_elements);
-                    break;
-                case "areas":
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
-                    navigationView.setCheckedItem(R.id.nav_areas);
-                    break;
-                case "sections":
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
-                    navigationView.setCheckedItem(R.id.nav_sections);
-                    break;
-            }*/
         } else {
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Home()).commit();
@@ -112,6 +101,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 window = "main";
             }
         }
+
+        getUserData(MainActivity.userID);
 
     }
 
@@ -205,6 +196,28 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
             navigationView.setCheckedItem(R.id.nav_sections);
         }
+    }
+
+    public void getUserData(int idUser) {
+        Call<User> call = mAPIService.getUserData(MainActivity.tokenAuth, idUser);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    response.body();
+                    userName.setText(response.body().getName());
+                } else {
+                    Log.e("Login", "onFailure: " + response.message());
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

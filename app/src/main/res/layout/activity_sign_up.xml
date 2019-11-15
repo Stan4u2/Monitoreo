@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".SignUp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -127,6 +127,26 @@
                 android:backgroundTint="@color/colorFinalGradient"
                 android:inputType="textPassword" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp">
+
+                <CheckBox
+                    android:id="@+id/checkboxChangePassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorFinalGradient"
+                    android:text="Cambiar Contraseña"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"/>
+
+
+
+            </LinearLayout>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,7 +169,7 @@
                     android:backgroundTint="@color/colorFinalGradient"
                     android:textColor="@color/colorPrimary"
                     android:text="Admin"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <RadioButton
                     android:id="@+id/radioButtonNormal"
@@ -158,19 +178,19 @@
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/colorPrimary"
                     android:text="Normal"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
             </RadioGroup>
 
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/ic_gradient_color"
-                android:layout_gravity="center"
+                android:onClick="signUp"
                 android:text="SIGN UP"
-                android:textColor="@color/colorWhite"
-                android:onClick="signUp" />
+                android:textColor="@color/colorWhite" />
 
         </LinearLayout>
     </LinearLayout>
