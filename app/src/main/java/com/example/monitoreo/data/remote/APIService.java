@@ -2,6 +2,7 @@ package com.example.monitoreo.data.remote;
 
 import com.example.monitoreo.data.model.Area;
 import com.example.monitoreo.data.model.Element;
+import com.example.monitoreo.data.model.Readings;
 import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.model.User;
 
@@ -55,6 +56,12 @@ public interface APIService {
     @GET("secciones/{id}/elementos/count")
     Call<Section> countElementsInSection(@Header("Authorization") String access_token, @Path("id") long id);
 
+    @GET("lecturas")
+    Call<List<Readings>> getAllReadings (@Header("Authorization") String access_token);
+
+    @GET("call/nueva-lectura")
+    Call<Element> getRFID (@Header("Authorization") String access_token);
+
     @POST("secciones")
     Call<Section> createSection(@Header("Authorization") String access_token, @Body Section section);
 
@@ -72,6 +79,9 @@ public interface APIService {
 
     @POST("usuarios/logout")
     Call<APIService> logOut(@Header("Authorization") String access_token);
+
+    @POST("call/lecturas")
+    Call makeNewReading (@Header("Authorization") String access_token);
 
     @FormUrlEncoded
     @POST("usuarios/reset-password")

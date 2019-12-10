@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.monitoreo.data.Fragments.Fragment_Areas;
 import com.example.monitoreo.data.Fragments.Fragment_Home;
 import com.example.monitoreo.data.Fragments.Fragment_Objects;
+import com.example.monitoreo.data.Fragments.Fragment_Readings;
 import com.example.monitoreo.data.Fragments.Fragment_Sections;
 import com.example.monitoreo.data.Fragments.Fragment_Users;
 import com.example.monitoreo.data.model.User;
@@ -120,6 +121,9 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Home()).commit();
                 break;
+            case R.id.nav_readings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Readings()).commit();
+                break;
             case R.id.nav_users:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
                 break;
@@ -179,22 +183,36 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void MainMenuButtons(String nav) {
-        if (nav.equals("users")){
-            if (MainActivity.isAdmin) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
-                navigationView.setCheckedItem(R.id.nav_users);
-            } else {
-                Toast.makeText(getApplicationContext(), "Permisos Insuficientes", Toast.LENGTH_LONG).show();
-            }
-        } else if (nav.equals("elements")) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
-            navigationView.setCheckedItem(R.id.nav_elements);
-        } else if (nav.equals("areas")) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
-            navigationView.setCheckedItem(R.id.nav_areas);
-        } else if (nav.equals("sections")) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
-            navigationView.setCheckedItem(R.id.nav_sections);
+        switch (nav) {
+            case "readings":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Readings()).commit();
+                navigationView.setCheckedItem(R.id.nav_readings);
+                break;
+
+            case "users":
+                if (MainActivity.isAdmin) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
+                    navigationView.setCheckedItem(R.id.nav_users);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permisos Insuficientes", Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            case "elements":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Readings()).commit();
+                navigationView.setCheckedItem(R.id.nav_elements);
+                break;
+
+            case "areas":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Areas()).commit();
+                navigationView.setCheckedItem(R.id.nav_areas);
+                break;
+
+            case "sections":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
+                navigationView.setCheckedItem(R.id.nav_sections);
+                break;
+
         }
     }
 

@@ -1,7 +1,9 @@
 package com.example.monitoreo;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,10 +47,11 @@ public class AddElement extends AppCompatActivity {
     private APIService mAPIService;
     private Button AddNewArea, AddNewSection;
     private Spinner AreaSpinner, SectionSpinner;
-    private EditText RFID, Label, Descriptor, Observations;
+    private EditText /*RFID,*/ Label, Descriptor, Observations;
     private TextView action_to_do_element;
     private RadioButton ActiveRB, InactiveRB;
     private Boolean loadInfo;
+    private static String RFID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class AddElement extends AppCompatActivity {
         AreaSpinner = findViewById(R.id.AreaSpinner);
         SectionSpinner = findViewById(R.id.SectionSpinner);
         //EditText
-        RFID = findViewById(R.id.RFID);
+        //RFID = findViewById(R.id.RFID);
         Label = findViewById(R.id.Label);
         Descriptor = findViewById(R.id.Descriptor);
         Observations = findViewById(R.id.Observations);
@@ -82,6 +85,8 @@ public class AddElement extends AppCompatActivity {
             switch (action) {
                 case "insert":
                     action_to_do_element.setText("Nuevo Elemento");
+                    //GetRFID getRFID = new GetRFID();
+                    //getRFID.execute();
                     break;
                 case "modify":
                     action_to_do_element.setText("Modificar Elemento");
@@ -136,6 +141,8 @@ public class AddElement extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        GetRFID getRFID = new GetRFID();
+        getRFID.execute();
     }
 
     @Override
@@ -200,7 +207,7 @@ public class AddElement extends AppCompatActivity {
                     }
                 }
 
-                RFID.setText(element.getRFID());
+                /*RFID.setText(element.getRFID());*/
                 Label.setText(element.getLable());
                 Descriptor.setText(element.getDescriptor());
                 Observations.setText(element.getObservations());
@@ -304,7 +311,6 @@ public class AddElement extends AppCompatActivity {
                 } else {
                     Log.e("AddElement Section", "onFailure: " + response.message());
                     if (response.message().equals("Not Found")) {
-                        System.out.println("Yaaaaa");
                         obtainList_Sections();
                         setListSectionsToSpinner();
                     }
@@ -352,7 +358,7 @@ public class AddElement extends AppCompatActivity {
     public void checkInputs(View view) {
         Boolean noBlankSpaces = true;
         if (AreaSpinner.getSelectedItemId() == 0 && SectionSpinner.getSelectedItemId() == 0 &&
-                RFID.getText().toString().isEmpty() && Label.getText().toString().isEmpty() &&
+                /*RFID.getText().toString().isEmpty() &&*/ Label.getText().toString().isEmpty() &&
                 Descriptor.getText().toString().isEmpty() && !ActiveRB.isChecked() && !InactiveRB.isChecked() &&
                 Observations.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "¡¡Campos Vacios!!", Toast.LENGTH_LONG).show();
@@ -366,10 +372,10 @@ public class AddElement extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "¡¡Seleccione una sección!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
             }
-            if (RFID.getText().toString().isEmpty()) {
+            /*if (RFID.getText().toString().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "¡¡Ingrese una RFID!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
-            }
+            }*/
             if (Label.getText().toString().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "¡¡Ingrese una etiqueta!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
@@ -393,7 +399,7 @@ public class AddElement extends AppCompatActivity {
                 saveElement(
                         idSelectedArea,
                         idSelectedSection,
-                        RFID.getText().toString(),
+                        RFID,
                         Label.getText().toString(),
                         Descriptor.getText().toString(),
                         StateElement,
@@ -403,7 +409,7 @@ public class AddElement extends AppCompatActivity {
                         idElementModify,
                         idSelectedArea,
                         idSelectedSection,
-                        RFID.getText().toString(),
+                        RFID,
                         Label.getText().toString(),
                         Descriptor.getText().toString(),
                         StateElement,
@@ -468,5 +474,44 @@ public class AddElement extends AppCompatActivity {
         });
     }
 
+    public class GetRFID extends AsyncTask<Void, Void, Integer> {
 
+        ProgressDialog progDailog = new ProgressDialog(AddElement.this);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progDailog.setMessage("Buscando RFID...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            Call<Element> call = mAPIService.getRFID(MainActivity.tokenAuth);
+
+            try {
+                Response<Element> response = call.execute();
+                if (response.isSuccessful()) {
+                    response.body();
+                    System.out.println("This is the RFID " + response.body().getRFID());
+                    RFID = response.body().getRFID();
+                } else {
+                    Log.e("AddElement RFID", "onFailure: " + response.message());
+                }
+            } catch (Exception e) {
+                Log.e("AddElement RFID", "onFailure: " + e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            progDailog.dismiss();
+        }
+    }
 }

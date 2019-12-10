@@ -7,6 +7,10 @@
             android:icon="@drawable/home_1"
             android:title="Inicio"/>
         <item
+            android:id="@+id/nav_readings"
+            android:icon="@drawable/lecturas"
+            android:title="Lecturas" />
+        <item
             android:id="@+id/nav_users"
             android:icon="@drawable/ic_users"
             android:title="Usuarios" />

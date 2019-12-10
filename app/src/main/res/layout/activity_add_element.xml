@@ -156,7 +156,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
+        <!--
         <EditText
             android:id="@+id/RFID"
             android:layout_width="match_parent"
@@ -165,6 +165,7 @@
             android:textSize="20dp"
             android:hint="RFID"
             android:textColor="@color/colorPrimary"/>
+            -->
 
         <EditText
             android:id="@+id/Label"

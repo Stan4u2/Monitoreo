@@ -176,6 +176,14 @@ public class Fragment_Home extends Fragment {
     }
 
     public void onClickListeners(){
+
+        ReadingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainMenu)getActivity()).MainMenuButtons("readings");
+            }
+        });
+
         UserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
