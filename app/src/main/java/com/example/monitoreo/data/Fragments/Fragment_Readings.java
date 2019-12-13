@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.monitoreo.Adapter.Adapter_Readings;
 import com.example.monitoreo.MainActivity;
 import com.example.monitoreo.R;
+import com.example.monitoreo.data.model.CallModel;
 import com.example.monitoreo.data.model.Readings;
 import com.example.monitoreo.data.model.User;
 import com.example.monitoreo.data.remote.APIService;
@@ -78,21 +79,23 @@ public class Fragment_Readings extends Fragment {
 
     public void makeNewReading() {
 
-        Call call = mAPIService.makeNewReading(MainActivity.tokenAuth);
+        Call<CallModel> call = mAPIService.makeNewReading(MainActivity.tokenAuth);
 
-        call.enqueue(new Callback() {
+        call.enqueue(new Callback<CallModel>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<CallModel> call, Response<CallModel> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Nueva Lectura Generada", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getContext(), "Ha fallado la lectura", Toast.LENGTH_LONG).show();
                     Log.e("GetNewReading", "onFailure: " + response.message());
                 }
+                LoadReadings loadReadings = new LoadReadings();
+                loadReadings.execute();
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<CallModel> call, Throwable t) {
                 Log.e("GetNewReading", "onFailure: " + t.getMessage());
             }
         });

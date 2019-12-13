@@ -199,7 +199,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 break;
 
             case "elements":
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Readings()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Objects()).commit();
                 navigationView.setCheckedItem(R.id.nav_elements);
                 break;
 

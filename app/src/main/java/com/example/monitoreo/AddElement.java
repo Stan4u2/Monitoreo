@@ -37,6 +37,7 @@ public class AddElement extends AppCompatActivity {
 
     public static String action;
     static int idElementModify;
+    private static String RFID;
     ArrayList<String> areaList;
     ArrayList<Area> areasObjects;
     ArrayList<String> sectionList;
@@ -45,13 +46,12 @@ public class AddElement extends AppCompatActivity {
     Boolean StateElement;
     Bundle objectSent;
     private APIService mAPIService;
-    private Button AddNewArea, AddNewSection;
+    private Button AddNewArea, AddNewSection, Search_RFID;
     private Spinner AreaSpinner, SectionSpinner;
-    private EditText /*RFID,*/ Label, Descriptor, Observations;
+    private EditText Label, Descriptor, Observations;
     private TextView action_to_do_element;
     private RadioButton ActiveRB, InactiveRB;
     private Boolean loadInfo;
-    private static String RFID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class AddElement extends AppCompatActivity {
         //Button
         AddNewArea = findViewById(R.id.AddNewArea);
         AddNewSection = findViewById(R.id.AddNewSection);
+        Search_RFID = findViewById(R.id.Search_RFID);
         //Spinner
         AreaSpinner = findViewById(R.id.AreaSpinner);
         SectionSpinner = findViewById(R.id.SectionSpinner);
@@ -85,12 +86,14 @@ public class AddElement extends AppCompatActivity {
             switch (action) {
                 case "insert":
                     action_to_do_element.setText("Nuevo Elemento");
-                    //GetRFID getRFID = new GetRFID();
-                    //getRFID.execute();
+                    //I set the RFID button invisible because it'll search for it automatically.
+                    Search_RFID.setVisibility(View.GONE);
                     break;
                 case "modify":
                     action_to_do_element.setText("Modificar Elemento");
                     loadInfo = true;
+                    //I set the RFID button visible when you modify because you might want to change it.
+                    Search_RFID.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -135,14 +138,25 @@ public class AddElement extends AppCompatActivity {
             }
         });
 
+        Search_RFID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //This will search for the closest RFID and store it into a variable.
+                GetRFID getRFID = new GetRFID();
+                getRFID.execute();
+            }
+        });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        GetRFID getRFID = new GetRFID();
-        getRFID.execute();
+        if (action.equals("insert")) {
+            //This will search for the closest RFID and store it into a variable.
+            GetRFID getRFID = new GetRFID();
+            getRFID.execute();
+        }
     }
 
     @Override
@@ -357,8 +371,7 @@ public class AddElement extends AppCompatActivity {
 
     public void checkInputs(View view) {
         Boolean noBlankSpaces = true;
-        if (AreaSpinner.getSelectedItemId() == 0 && SectionSpinner.getSelectedItemId() == 0 &&
-                /*RFID.getText().toString().isEmpty() &&*/ Label.getText().toString().isEmpty() &&
+        if (AreaSpinner.getSelectedItemId() == 0 && SectionSpinner.getSelectedItemId() == 0 && Label.getText().toString().isEmpty() &&
                 Descriptor.getText().toString().isEmpty() && !ActiveRB.isChecked() && !InactiveRB.isChecked() &&
                 Observations.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "¡¡Campos Vacios!!", Toast.LENGTH_LONG).show();
@@ -372,10 +385,10 @@ public class AddElement extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "¡¡Seleccione una sección!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
             }
-            /*if (RFID.getText().toString().isEmpty()) {
-                Toast.makeText(getApplicationContext(), "¡¡Ingrese una RFID!!", Toast.LENGTH_LONG).show();
+            if (RFID.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "¡¡No se ha encontrado una RFID!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
-            }*/
+            }
             if (Label.getText().toString().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "¡¡Ingrese una etiqueta!!", Toast.LENGTH_LONG).show();
                 noBlankSpaces = false;
@@ -474,9 +487,11 @@ public class AddElement extends AppCompatActivity {
         });
     }
 
-    public class GetRFID extends AsyncTask<Void, Void, Integer> {
+
+    public class GetRFID extends AsyncTask<Void, Void, Boolean> {
 
         ProgressDialog progDailog = new ProgressDialog(AddElement.this);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -489,7 +504,7 @@ public class AddElement extends AppCompatActivity {
         }
 
         @Override
-        protected Integer doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
             Call<Element> call = mAPIService.getRFID(MainActivity.tokenAuth);
 
             try {
@@ -498,19 +513,27 @@ public class AddElement extends AppCompatActivity {
                     response.body();
                     System.out.println("This is the RFID " + response.body().getRFID());
                     RFID = response.body().getRFID();
+                    return true;
                 } else {
                     Log.e("AddElement RFID", "onFailure: " + response.message());
+                    return false;
                 }
             } catch (Exception e) {
                 Log.e("AddElement RFID", "onFailure: " + e);
+                return false;
             }
-
-            return null;
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean) {
+                Toast.makeText(getApplicationContext(), "RFID Encontrado", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "RFID No Encontrado", Toast.LENGTH_LONG).show();
+                Search_RFID.setVisibility(View.VISIBLE);
+            }
+
             progDailog.dismiss();
         }
     }

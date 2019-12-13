@@ -41,7 +41,7 @@ public class Adapter_Readings extends RecyclerView.Adapter<Adapter_Readings.View
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_Readings.ViewHolderReadings holder, int position) {
-        if (Integer.valueOf(listUsers.get(position).getId()) == 1){
+        if (Integer.valueOf(listUsers.get(position).getId()) == 1 || Integer.valueOf(listUsers.get(position).getId()) == 2){
             holder.item_list_name_person_reading.setText("Automatico");
         }else {
             holder.item_list_name_person_reading.setText(listUsers.get(position).getName());

@@ -1,6 +1,7 @@
 package com.example.monitoreo.data.remote;
 
 import com.example.monitoreo.data.model.Area;
+import com.example.monitoreo.data.model.CallModel;
 import com.example.monitoreo.data.model.Element;
 import com.example.monitoreo.data.model.Readings;
 import com.example.monitoreo.data.model.Section;
@@ -80,8 +81,8 @@ public interface APIService {
     @POST("usuarios/logout")
     Call<APIService> logOut(@Header("Authorization") String access_token);
 
-    @POST("call/lecturas")
-    Call makeNewReading (@Header("Authorization") String access_token);
+    @POST("call/lectura")
+    Call<CallModel> makeNewReading (@Header("Authorization") String access_token);
 
     @FormUrlEncoded
     @POST("usuarios/reset-password")

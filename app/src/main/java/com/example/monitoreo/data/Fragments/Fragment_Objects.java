@@ -85,9 +85,14 @@ public class Fragment_Objects extends Fragment {
     }
 
     private void loadList() {
+        System.out.println(elements.size());
+        System.out.println(areasObjects.size());
+        System.out.println(sectionObjects.size());
         if (!elements.isEmpty() && !areasObjects.isEmpty() && !sectionObjects.isEmpty()
                 &&
                 elements.size() == areasObjects.size() && areasObjects.size() == sectionObjects.size() && sectionObjects.size() == elements.size()) {
+
+            System.out.println("yes indeed");
 
             Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects);
 
@@ -221,7 +226,6 @@ public class Fragment_Objects extends Fragment {
                         for (Section section : sections1) {
                             if (elements.get(i).getSectionID() == section.getId()) {
                                 sectionObjects.add(section);
-                                System.out.println("ID Seccion " + section.getId());
                             }
                         }
                     }
