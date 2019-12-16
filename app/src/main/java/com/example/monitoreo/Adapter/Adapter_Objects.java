@@ -22,6 +22,7 @@ import com.example.monitoreo.MainMenu;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.Area;
 import com.example.monitoreo.data.model.Element;
+import com.example.monitoreo.data.model.ReadingsDetails;
 import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
@@ -38,13 +39,15 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
     ArrayList<Element> listElement;
     ArrayList<Area> listArea;
     ArrayList<Section> listSection;
+    ArrayList<ReadingsDetails> listReadings;
 
     private View.OnClickListener listener;
 
-    public Adapter_Objects(ArrayList<Element> listElement, ArrayList<Area> listArea, ArrayList<Section> listSection) {
+    public Adapter_Objects(ArrayList<Element> listElement, ArrayList<Area> listArea, ArrayList<Section> listSection, ArrayList<ReadingsDetails> listReadings) {
         this.listElement = listElement;
         this.listArea = listArea;
         this.listSection = listSection;
+        this.listReadings = listReadings;
     }
 
     @NonNull
@@ -63,6 +66,14 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
         holder.item_list_element.setText(listElement.get(position).getDescriptor());
         holder.item_list_area.setText(listArea.get(position).getName());
         holder.item_list_section.setText(listSection.get(position).getName());
+        if(listReadings!= null){
+            if (listReadings.get(position).getRead()){
+                holder.item_list_reading.setText("Si");
+            } else {
+                holder.item_list_reading.setText("No");
+            }
+
+        }
 
         if (listElement.get(position).getState()) {
             //Set background if its active
@@ -90,7 +101,7 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
     }
 
     public class ViewHolderObjects extends RecyclerView.ViewHolder {
-        TextView item_list_element, item_list_area, item_list_section;
+        TextView item_list_element, item_list_area, item_list_section, item_list_reading;
         ImageView ElementState;
         ImageButton EditButton, DeleteButton;
 
@@ -100,6 +111,7 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
             item_list_element = itemView.findViewById(R.id.item_list_element);
             item_list_area = itemView.findViewById(R.id.item_list_area);
             item_list_section = itemView.findViewById(R.id.item_list_section);
+            item_list_reading = itemView.findViewById(R.id.item_list_reading);
             //ImageView
             ElementState = itemView.findViewById(R.id.ElementState);
             //Image Button

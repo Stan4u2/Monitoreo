@@ -189,6 +189,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 navigationView.setCheckedItem(R.id.nav_readings);
                 break;
 
+            case "readings2":
+                navigationView.setCheckedItem(R.id.nav_elements);
+                break;
+
             case "users":
                 if (MainActivity.isAdmin) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Users()).commit();
@@ -212,7 +216,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Sections()).commit();
                 navigationView.setCheckedItem(R.id.nav_sections);
                 break;
-
         }
     }
 

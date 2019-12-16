@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.monitoreo.MainActivity;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.Readings;
 import com.example.monitoreo.data.model.User;
@@ -41,10 +42,18 @@ public class Adapter_Readings extends RecyclerView.Adapter<Adapter_Readings.View
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_Readings.ViewHolderReadings holder, int position) {
-        if (Integer.valueOf(listUsers.get(position).getId()) == 1 || Integer.valueOf(listUsers.get(position).getId()) == 2){
+        if (Integer.valueOf(listUsers.get(position).getId()) == 0){
             holder.item_list_name_person_reading.setText("Automatico");
         }else {
-            holder.item_list_name_person_reading.setText(listUsers.get(position).getName());
+            if(MainActivity.userID == 2) {
+                holder.item_list_name_person_reading.setText(listUsers.get(position).getName());
+            } else {
+                if (Integer.valueOf(listUsers.get(position).getId()) == MainActivity.userID){
+                    holder.item_list_name_person_reading.setText("Realizada por el usuario actual.");
+                } else {
+                    holder.item_list_name_person_reading.setText("Realizada por otro usuario.");
+                }
+            }
         }
 
         DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.US);

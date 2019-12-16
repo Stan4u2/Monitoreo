@@ -128,9 +128,8 @@ public class Fragment_Objects extends Fragment {
                 &&
                 elements.size() == areasObjects.size() && areasObjects.size() == sectionObjects.size() && sectionObjects.size() == elements.size()) {
 
-            System.out.println("yes indeed");
 
-            Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects);
+            Adapter_Objects adapter_objects = new Adapter_Objects(elements, areasObjects, sectionObjects, readingsDetails);
 
             adapter_objects.setOnClickListener(new View.OnClickListener() {
                 @Override

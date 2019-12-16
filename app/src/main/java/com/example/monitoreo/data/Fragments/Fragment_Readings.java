@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.monitoreo.Adapter.Adapter_Readings;
 import com.example.monitoreo.MainActivity;
+import com.example.monitoreo.MainMenu;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.CallModel;
 import com.example.monitoreo.data.model.Readings;
@@ -124,12 +125,15 @@ public class Fragment_Readings extends Fragment {
 
                     fragmentTransaction.replace(R.id.fragment_container, fragment_objects);
                     fragmentTransaction.commit();
+                    ((MainMenu) getActivity()).MainMenuButtons("readings2");
                 }
             });
 
             ReadingsRecyclerView.setAdapter(adapter_readings);
         }
     }
+
+
 
     public class LoadReadings extends AsyncTask<Void, Void, Boolean> {
 
@@ -148,7 +152,6 @@ public class Fragment_Readings extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-
             readings = new ArrayList<Readings>();
 
             Call<List<Readings>> call = mAPIService.getAllReadings(MainActivity.tokenAuth);
@@ -160,10 +163,19 @@ public class Fragment_Readings extends Fragment {
 
                     for (Readings reading : readings1) {
                         readings.add(reading);
+
+                        if (MainActivity.userID != 2) {
+                            users = new ArrayList<User>();
+                            for (int i = 0; i < readings.size(); i++) {
+                                user1 = new User();
+                                user1.setId(String.valueOf(readings.get(i).getUserIDFK()));
+                                users.add(user1);
+                            }
+                        }
                     }
                     return true;
                 } else {
-                    Log.e("FragmentSections Sections", "onFailure: " + response.message());
+                    Log.e("FragmentReadings Readings", "onFailure: " + response.message());
                     return false;
                 }
             } catch (Exception e) {
@@ -177,10 +189,27 @@ public class Fragment_Readings extends Fragment {
             super.onPostExecute(aBoolean);
 
             if (aBoolean) {
-                new LoadUsers().execute(readings);
+                if (MainActivity.userID == 2) {
+                    new LoadUsers().execute(readings);
+                } else {
+                    loadList();
+                }
             }
             progDailog.dismiss();
         }
+    }
+
+    public void setUserIDs(ArrayList<Readings> readings) {
+        User user = null;
+        users = new ArrayList<User>();
+        for (int i = 0; i < readings.size(); i++) {
+            user = new User();
+            user.setId(String.valueOf(readings.get(i).getUserIDFK()));
+            System.out.println("yep " + readings.get(i).getUserIDFK());
+            users.add(user);
+        }
+        loadList();
+
     }
 
     public class LoadUsers extends AsyncTask<ArrayList<Readings>, Void, Void> {
