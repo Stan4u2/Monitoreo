@@ -4,6 +4,7 @@ import com.example.monitoreo.data.model.Area;
 import com.example.monitoreo.data.model.CallModel;
 import com.example.monitoreo.data.model.Element;
 import com.example.monitoreo.data.model.Readings;
+import com.example.monitoreo.data.model.ReadingsDetails;
 import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.model.User;
 
@@ -59,6 +60,9 @@ public interface APIService {
 
     @GET("lecturas")
     Call<List<Readings>> getAllReadings (@Header("Authorization") String access_token);
+
+    @GET("lecturas/{id}/lecturaDetalles")
+    Call<List<ReadingsDetails>> getReadingsDetails (@Header("Authorization") String access_token, @Path("id") long id);
 
     @GET("call/nueva-lectura")
     Call<Element> getRFID (@Header("Authorization") String access_token);

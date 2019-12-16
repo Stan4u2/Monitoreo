@@ -23,6 +23,8 @@ import com.example.monitoreo.MainActivity;
 import com.example.monitoreo.R;
 import com.example.monitoreo.data.model.Area;
 import com.example.monitoreo.data.model.Element;
+import com.example.monitoreo.data.model.Readings;
+import com.example.monitoreo.data.model.ReadingsDetails;
 import com.example.monitoreo.data.model.Section;
 import com.example.monitoreo.data.remote.APIService;
 import com.example.monitoreo.data.remote.APIUtils;
@@ -38,11 +40,18 @@ public class Fragment_Objects extends Fragment {
     private static ArrayList<Area> areasObjects;
     private static ArrayList<Section> sectionObjects;
     private static ArrayList<Element> elements;
+    private static ArrayList<Readings> readings;
+    private static ArrayList<ReadingsDetails> readingsDetails;
     RecyclerView ElementsRecyclerView;
     ImageButton AddObject;
+    String action;
+
     Element element1 = null;
     Area area1 = null;
     Section section1 = null;
+    Readings reading1 = null;
+    ReadingsDetails readingsDetail1 = null;
+
     private APIService mAPIService;
 
     @Nullable
@@ -73,6 +82,15 @@ public class Fragment_Objects extends Fragment {
             }
         });
 
+        Bundle objectSent = this.getArguments();
+
+        if (objectSent != null) {
+            action = objectSent.getSerializable("action").toString();
+            reading1 = (Readings) objectSent.getSerializable("reading");
+
+            AddObject.setVisibility(View.GONE);
+            System.out.println("chi1");
+        }
 
         return view;
     }
@@ -80,8 +98,26 @@ public class Fragment_Objects extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LoadElements loadElements = new LoadElements();
-        loadElements.execute();
+
+        Bundle objectSent = this.getArguments();
+
+        if (objectSent != null) {
+            action = objectSent.getSerializable("action").toString();
+            reading1 = (Readings) objectSent.getSerializable("reading");
+
+            AddObject.setVisibility(View.GONE);
+            System.out.println("chi2");
+        }
+
+        if (action != null) {
+            if (action.equals("readingsDetails")) {
+                GetListReadingDetails getListReadingDetails = new GetListReadingDetails(reading1);
+                getListReadingDetails.execute();
+            }
+        } else {
+            LoadElements loadElements = new LoadElements();
+            loadElements.execute();
+        }
     }
 
     private void loadList() {
@@ -103,8 +139,6 @@ public class Fragment_Objects extends Fragment {
                     Area area = areasObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
                     Section section = sectionObjects.get(ElementsRecyclerView.getChildAdapterPosition(view));
 
-                    System.out.println(section.getName());
-
                     Intent intent = new Intent(view.getContext(), ElementDetails.class);
 
                     Bundle bundle = new Bundle();
@@ -121,9 +155,112 @@ public class Fragment_Objects extends Fragment {
         }
     }
 
+    public class GetListReadingDetails extends AsyncTask<Readings, Void, Boolean> {
+        private Readings newReadings;
+
+        public GetListReadingDetails(Readings newReadings) {
+            this.newReadings = newReadings;
+        }
+
+        @Override
+        protected Boolean doInBackground(Readings... readings) {
+            System.out.println("id REading " + newReadings.getIdReading());
+            Call<List<ReadingsDetails>> call = mAPIService.getReadingsDetails(MainActivity.tokenAuth, newReadings.getIdReading());
+
+            readingsDetails = new ArrayList<ReadingsDetails>();
+
+            try {
+                Response<List<ReadingsDetails>> response = call.execute();
+                if (response.isSuccessful()) {
+                    List<ReadingsDetails> readingsDetails1 = response.body();
+
+                    for (ReadingsDetails readingsDetail : readingsDetails1) {
+                        System.out.println("Reading Deatils " + readingsDetail.getElementID());
+                        readingsDetails.add(readingsDetail);
+                    }
+                    return true;
+                } else {
+                    Log.e("FragmentObjects ReadingsDetails", "onFailure: " + response.message());
+                    return false;
+                }
+            } catch (Exception e) {
+                Log.e("FragmentObjects ReadingsDetails", "onFailure: " + e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean) {
+                new LoadElementsReadings().execute(readingsDetails);
+            }
+        }
+    }
+
+    public class LoadElementsReadings extends AsyncTask<ArrayList<ReadingsDetails>, Void, Boolean> {
+        ProgressDialog progDailog = new ProgressDialog(getContext());
+
+        ArrayList<ReadingsDetails> readingsDetails = new ArrayList<>();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog.setMessage("Cargando...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(ArrayList<ReadingsDetails>... arrayLists) {
+            //Get the parameters value
+            ArrayList<ReadingsDetails> readingsDetails = arrayLists[0];
+            elements = new ArrayList<Element>();
+
+            Call<List<Element>> call = mAPIService.getAllElements(MainActivity.tokenAuth);
+
+            try {
+                Response<List<Element>> response = call.execute();
+                if (response.isSuccessful()) {
+                    List<Element> elements1 = response.body();
+
+                    for (int i = 0; i < readingsDetails.size(); i++) {
+                        for (Element element : elements1) {
+                            if (readingsDetails.get(i).getElementID() == element.getId()) {
+                                elements.add(element);
+                            }
+                        }
+                    }
+                    return true;
+                } else {
+                    Log.e("FragmentObjects Elements", "onFailure: " + response.message());
+                    return false;
+                }
+
+            } catch (Exception e) {
+                Log.e("FragmentObjects Elements", "onFailure: " + e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if (aBoolean) {
+                new LoadAreas().execute(elements);
+                new LoadSections().execute(elements);
+            }
+            progDailog.dismiss();
+        }
+    }
+
     public class LoadElements extends AsyncTask<Void, Void, Boolean> {
 
         ProgressDialog progDailog = new ProgressDialog(getContext());
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

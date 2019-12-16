@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -104,6 +106,26 @@ public class Fragment_Readings extends Fragment {
     private void loadList() {
         if (!readings.isEmpty() && !users.isEmpty() && readings.size() == users.size()) {
             Adapter_Readings adapter_readings = new Adapter_Readings(readings, users);
+
+            adapter_readings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Readings reading = readings.get(ReadingsRecyclerView.getChildAdapterPosition(view));
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("action", "readingsDetails");
+                    bundle.putSerializable("reading", reading);
+
+                    Fragment_Objects fragment_objects = new Fragment_Objects();
+                    fragment_objects.setArguments(bundle);
+
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.fragment_container, fragment_objects);
+                    fragmentTransaction.commit();
+                }
+            });
 
             ReadingsRecyclerView.setAdapter(adapter_readings);
         }
