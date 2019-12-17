@@ -66,13 +66,17 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
         holder.item_list_element.setText(listElement.get(position).getDescriptor());
         holder.item_list_area.setText(listArea.get(position).getName());
         holder.item_list_section.setText(listSection.get(position).getName());
-        if(listReadings!= null){
+        if(listReadings.size() != 0){
+            holder.item_list_reading.setVisibility(View.VISIBLE);
+            holder.item_list_reading_title.setVisibility(View.VISIBLE);
             if (listReadings.get(position).getRead()){
                 holder.item_list_reading.setText("Si");
             } else {
                 holder.item_list_reading.setText("No");
             }
-
+        } else {
+            holder.item_list_reading.setVisibility(View.GONE);
+            holder.item_list_reading_title.setVisibility(View.GONE);
         }
 
         if (listElement.get(position).getState()) {
@@ -101,7 +105,7 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
     }
 
     public class ViewHolderObjects extends RecyclerView.ViewHolder {
-        TextView item_list_element, item_list_area, item_list_section, item_list_reading;
+        TextView item_list_element, item_list_area, item_list_section, item_list_reading, item_list_reading_title;
         ImageView ElementState;
         ImageButton EditButton, DeleteButton;
 
@@ -112,6 +116,7 @@ public class Adapter_Objects extends RecyclerView.Adapter<Adapter_Objects.ViewHo
             item_list_area = itemView.findViewById(R.id.item_list_area);
             item_list_section = itemView.findViewById(R.id.item_list_section);
             item_list_reading = itemView.findViewById(R.id.item_list_reading);
+            item_list_reading_title = itemView.findViewById(R.id.item_list_reading_title);
             //ImageView
             ElementState = itemView.findViewById(R.id.ElementState);
             //Image Button
