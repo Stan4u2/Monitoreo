@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     start();
                 } else {
                     Log.e("Login", "onFailure: " + response.message());
+                    System.out.println("chi");
                     if (response.message().equals("Unauthorized")) {
                         Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrecto", Toast.LENGTH_SHORT).show();
                     }
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.e("Login", "onFailure: " + t.getMessage());
+                if (String.valueOf(t.getMessage()).equals("Failed to connect to /192.168.1.100:3000")){
+                    Toast.makeText(getApplicationContext(), "Asegurese de estar conectado a la red.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
